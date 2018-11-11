@@ -14,8 +14,9 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 /**
  * Created by Arroz on 11/4/2018
  */
-@Autonomous (name = "Auto_BCrater", group = "Blue")
-public class Auto_BCrater extends OpMode {
+
+@Autonomous(name = "Auto_Deposit", group = "Blue")
+public class Auto_Deposit extends OpMode {
     private Robot robot;
 
     private DcMotor leftFront;
@@ -41,45 +42,37 @@ public class Auto_BCrater extends OpMode {
 
         soas = hardwareMap.servo.get("soas");
 
-        gyroscope = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
+        gyroscope = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
 
         robot = new Robot(hardwareMap, telemetry);
 
         state = States.TIME;
         isFinished = false;
     }
-
-        @Override
-        public void loop(){
-            switch (state){
-                case DRIVEOUT:
-                    if (!isFinished) {
+    @Override
+    public void loop(){
+        switch (state){
+            case DRIVEOUT:
+                if (!isFinished) {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
-                    } else{
+                } else{
                         isFinished = false;
                         state = States.OPEN;
                     }
-                case ROTATE:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
-                    } else {
-                        isFinished = false;
-                        state = States.END;
-                    }
-                case DRIVECRATER:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 24);
-                    } else{
-                        isFinished = false;
-                        state = States.OPEN;
-                    }
-                case DROPSOAS:
-                    if (!isFinished) {
-                        isFinished = false;
-                        state = States.OPEN;
-                    }
+            case ROTATE:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
+                } else {
+                    isFinished = false;
+                    state = States.END;
+                }
+            case DRIVEMARKER:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 32);
+                } else {
+                    isFinished = false;
+                    state = States.OPEN;
+                }
+    }
 
-                    break;
-            }
-        }
-}
+} }
