@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.GMR.Autonomous.Blue;
+package org.firstinspires.ftc.teamcode.GMR.Autonomous;
 
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.GMR.Autonomous.States;
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 
@@ -29,7 +28,7 @@ public class Auto_Deposit extends OpMode {
 
     private Servo soas;
 
-    private States state;
+    private State state;
 
     private boolean isFinished;
 
@@ -46,7 +45,7 @@ public class Auto_Deposit extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        state = States.TIME;
+        state = State.DRIVEOUT;
         isFinished = false;
     }
     @Override
@@ -57,22 +56,28 @@ public class Auto_Deposit extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
                 } else{
                         isFinished = false;
-                        state = States.OPEN;
-                    } break;
+                        state = State.ROTATE;
+                    }
+                    break;
             case ROTATE:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                 } else {
                     isFinished = false;
-                    state = States.OPEN;
-                } break;
+                    state = State.DRIVEMARKER;
+                }
+                break;
             case DRIVEMARKER:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 32);
                 } else {
                     isFinished = false;
-                    state = States.OPEN;
-                } break;
+                    state = State.END;
+                }
+                break;
+            case END:
+                robot.driveTrain.stop();
+                break;
     }
 
 } }

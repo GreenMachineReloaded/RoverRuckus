@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.GMR.Autonomous.Blue;
+package org.firstinspires.ftc.teamcode.GMR.Autonomous;
 
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,15 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.GMR.Autonomous.States;
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 
 /**
  * Created by Arroz on 11/4/2018
  */
-@Autonomous (name = "Auto_BCrater", group = "Blue")
-public class Auto_BCrater extends OpMode {
+@Autonomous (name = "Auto_Crater")
+public class Auto_Crater extends OpMode {
     private Robot robot;
 
     private DcMotor leftFront;
@@ -28,7 +27,7 @@ public class Auto_BCrater extends OpMode {
 
     private Servo soas;
 
-    private States state;
+    private State state;
 
     private boolean isFinished;
 
@@ -45,7 +44,7 @@ public class Auto_BCrater extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        state = States.TIME;
+        state = State.DRIVEOUT;
         isFinished = false;
     }
 
@@ -57,28 +56,33 @@ public class Auto_BCrater extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
                     } else{
                         isFinished = false;
-                        state = States.OPEN;
-                    } break;
+                        state = State.ROTATE;
+                    }
+                    break;
                 case ROTATE:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                     } else {
                         isFinished = false;
-                        state = States.OPEN;
-                    } break;
+                        state = State.DRIVECRATER;
+                    }
+                    break;
                 case DRIVECRATER:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 24);
                     } else{
                         isFinished = false;
-                        state = States.OPEN;
-                    } break;
+                        state = State.DROPSOAS;
+                    }
+                    break;
                 case DROPSOAS:
                     if (!isFinished) {
                         isFinished = false;
-                        state = States.OPEN;
+                        state = State.END;
                     }
-
+                    break;
+                case END:
+                    robot.driveTrain.stop();
                     break;
             }
         }
