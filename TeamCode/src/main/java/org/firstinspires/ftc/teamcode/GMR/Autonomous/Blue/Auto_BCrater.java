@@ -58,21 +58,21 @@ public class Auto_BCrater extends OpMode {
                     } else{
                         isFinished = false;
                         state = States.OPEN;
-                    }
+                    } break;
                 case ROTATE:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                     } else {
                         isFinished = false;
-                        state = States.END;
-                    }
+                        state = States.OPEN;
+                    } break;
                 case DRIVECRATER:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 24);
                     } else{
                         isFinished = false;
                         state = States.OPEN;
-                    }
+                    } break;
                 case DROPSOAS:
                     if (!isFinished) {
                         isFinished = false;

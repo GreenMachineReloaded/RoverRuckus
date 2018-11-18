@@ -58,21 +58,21 @@ public class Auto_Deposit extends OpMode {
                 } else{
                         isFinished = false;
                         state = States.OPEN;
-                    }
+                    } break;
             case ROTATE:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                 } else {
                     isFinished = false;
-                    state = States.END;
-                }
+                    state = States.OPEN;
+                } break;
             case DRIVEMARKER:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 32);
                 } else {
                     isFinished = false;
                     state = States.OPEN;
-                }
+                } break;
     }
 
 } }
