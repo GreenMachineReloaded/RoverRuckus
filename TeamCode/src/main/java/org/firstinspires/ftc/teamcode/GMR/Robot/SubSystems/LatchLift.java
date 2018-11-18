@@ -16,17 +16,12 @@ public class LatchLift {
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void lift(boolean bumper, float trigger, Telemetry telemetry) {
-        if(bumper && trigger == 1){
-            liftMotor.setPower(0);
-        }
-        else if(bumper && trigger != 1){
-            liftMotor.setPower(-5);
-        }
-        else if(trigger == 1 && !bumper){
-            liftMotor.setPower(-.5);
-        }
-        else if(!bumper && trigger != 1){
-            liftMotor.setPower(0);
+        if(bumper){
+            if(trigger == 1) liftMotor.setPower(0.0);
+            else liftMotor.setPower(-0.5);
+        } else {
+            if(trigger == 1) liftMotor.setPower(0.5);
+            else liftMotor.setPower(0.0);
         }
         telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
     }

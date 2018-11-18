@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.GMR.TeleOp;
+package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,14 +20,13 @@ public class Lift_Test extends OpMode {
     public void loop() {
         bumper = gamepad1.left_bumper;
         trigger = gamepad1.left_trigger;
-        if(bumper && trigger != 1){
-            liftMotor.setPower(0.5);
-        }
-        else if(!bumper && trigger == 1){
-            liftMotor.setPower(-0.5);
-        }
-        else{
-            liftMotor.setPower(0);
+
+        if(bumper){
+            if(trigger == 1) liftMotor.setPower(0.0);
+            else liftMotor.setPower(-0.5);
+        } else {
+            if(trigger == 1) liftMotor.setPower(0.5);
+            else liftMotor.setPower(0.0);
         }
         telemetry.addData("Encoder Value:", liftMotor.getCurrentPosition());
         telemetry.update();
