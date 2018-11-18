@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.BlockLift;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.LatchLift;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RelicGrab;
 
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
@@ -20,6 +21,7 @@ public class Robot {
     public DriveTrain driveTrain;
     public BlockLift blockLift;
     public RelicGrab relicGrab;
+    public LatchLift latchLift;
 
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -52,21 +54,6 @@ public class Robot {
         rightRear = hardwareMap.dcMotor.get("rightrear");
 
         liftMotor = hardwareMap.dcMotor.get("liftmotor");
-        topLeftGrab = hardwareMap.servo.get("topleftgrab");
-        topRightGrab = hardwareMap.servo.get("toprightgrab");
-        bottomLeftGrab = hardwareMap.servo.get("bottomleftgrab");
-        bottomRightGrab = hardwareMap.servo.get("bottomrightgrab");
-
-        rightColor = hardwareMap.servo.get("rightArm");
-        leftColor = hardwareMap.servo.get("leftArm");
-
-        relicLift = hardwareMap.dcMotor.get("reliclift");
-        slideLift = hardwareMap.servo.get("slidelift");
-        relicTilt = hardwareMap.servo.get("relictilt");
-        relicClamp = hardwareMap.servo.get("relicclamp");
-
-        rightColor.setPosition(0);
-        leftColor.setPosition(0.85);
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
@@ -75,11 +62,7 @@ public class Robot {
         relicGrab = new RelicGrab(relicLift, slideLift, relicTilt, relicClamp);
 
         blockLift.clamp(false, true, false, false);
-    }
 
-    public void setServos() {
-        rightColor.setPosition(0);
-        leftColor.setPosition(0.85);
+        latchLift = new LatchLift(liftMotor, telemetry);
     }
-
 }
