@@ -22,11 +22,19 @@ public class Lift_Test extends OpMode {
         trigger = gamepad1.left_trigger;
 
         if(bumper){
-            if(trigger == 1) liftMotor.setPower(0.0);
-            else liftMotor.setPower(-0.5);
+            if(trigger == 1) {
+                liftMotor.setPower(0.0);
+            }
+            else {
+                liftMotor.setPower(-0.5);
+            }
         } else {
-            if(trigger == 1) liftMotor.setPower(0.5);
-            else liftMotor.setPower(0.0);
+            if(trigger == 1) {
+                liftMotor.setPower(0.5);
+            }
+            else {
+                liftMotor.setPower(0.0);
+            }
         }
         telemetry.addData("Encoder Value:", liftMotor.getCurrentPosition());
         telemetry.update();
