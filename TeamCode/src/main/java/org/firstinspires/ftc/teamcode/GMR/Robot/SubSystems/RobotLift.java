@@ -20,6 +20,8 @@ public class RobotLift {
     }
 
     public void lift (boolean bumper, float trigger) {
+        //CONTROLS: Bumper extends lift, trigger retracts lift
+
         if(bumper){
             if(trigger == 1) {
                 liftMotor.setPower(0);
