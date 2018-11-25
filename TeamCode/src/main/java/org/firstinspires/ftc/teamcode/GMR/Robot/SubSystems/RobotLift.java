@@ -13,6 +13,9 @@ public class RobotLift {
 
     private boolean encodersCanRun;
 
+    private final int LIFT_MIN;
+    private final int LIFT_MAX;
+
     public RobotLift(DcMotor liftMotor, Telemetry telemetry){
         this.liftMotor = liftMotor;
         this.telemetry = telemetry;
@@ -22,6 +25,9 @@ public class RobotLift {
         liftMotor.setPower(0);
 
         this.encodersCanRun = true;
+
+        LIFT_MIN = liftMotor.getCurrentPosition();
+        LIFT_MAX = LIFT_MIN + 2825;
     }
 
     public void lift (boolean bumper, float trigger) {
@@ -49,22 +55,22 @@ public class RobotLift {
         //Input goalPos must be between 0.0 and 1.0
 
         int currentPos = liftMotor.getCurrentPosition();
-
+        goalPos = Range.clip(goalPos, 0.0, 1.0);
+        goalPos = Range.scale(goalPos, 0.0, 1.0, LIFT_MIN, LIFT_MAX);
+        int newGoalPos;
+        newGoalPos = (int) -Math.round(goalPos);
         if(encodersCanRun){
-            //goalPos is scaled out to work with encoder values
-            goalPos = Range.clip(goalPos, 0.0, 1.0);
-            goalPos = Range.scale(goalPos, 0.0, 1.0, 5, 2830);
             encodersCanRun = false;
-            return encodersCanRun;
-        } else {
-            if(currentPos < goalPos){
+        }
+        if(!encodersCanRun){
+            if(currentPos > newGoalPos){
                 liftMotor.setPower(-power);
                 telemetry.addData("Current Lift Value:", currentPos);
-                telemetry.addData("Lift Goal Value:", goalPos);
-            } else if(currentPos > goalPos){
+                telemetry.addData("Lift Goal Value:", newGoalPos);
+            } else if(currentPos < newGoalPos){
                 liftMotor.setPower(power);
                 telemetry.addData("Current Lift Value:", currentPos);
-                telemetry.addData("Lift Goal Value:", goalPos);
+                telemetry.addData("Lift Goal Value:", newGoalPos);
             } else {
                 encodersCanRun = true;
                 liftMotor.setPower(0.0);

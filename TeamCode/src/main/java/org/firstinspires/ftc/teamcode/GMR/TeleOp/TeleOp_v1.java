@@ -17,7 +17,7 @@ public class TeleOp_v1 extends OpMode {
 
     @Override
     public void loop() {
-        robot.driveTrain.setMotorPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robot.driveTrain.setMotorPower(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.robotLift.lift(gamepad1.left_bumper, gamepad1.left_trigger);
         telemetry.update();
     }
