@@ -57,12 +57,6 @@ public class Robot {
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
-        blockLift = new BlockLift(liftMotor, topLeftGrab, topRightGrab, bottomLeftGrab, bottomRightGrab);
-
-        relicGrab = new RelicGrab(relicLift, slideLift, relicTilt, relicClamp);
-
-        blockLift.clamp(false, true, false, false);
-
         latchLift = new LatchLift(liftMotor, telemetry);
     }
 }

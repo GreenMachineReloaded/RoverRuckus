@@ -34,10 +34,10 @@ public class Auto_Deposit extends OpMode {
 
     @Override
     public void init() {
-        rightFront = hardwareMap.dcMotor.get("rightfront");
-        leftFront = hardwareMap.dcMotor.get("leftfront");
-        rightRear = hardwareMap.dcMotor.get("rightrear");
-        leftRear = hardwareMap.dcMotor.get("leftrear");
+        rightFront = hardwareMap.dcMotor.get("rightFront");
+        leftFront = hardwareMap.dcMotor.get("leftFront");
+        rightRear = hardwareMap.dcMotor.get("rightRear");
+        leftRear = hardwareMap.dcMotor.get("leftRear");
 
         soas = hardwareMap.servo.get("soas");
 
@@ -53,7 +53,7 @@ public class Auto_Deposit extends OpMode {
         switch (state){
             case DRIVEOUT:
                 if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
                 } else{
                         isFinished = false;
                         state = State.ROTATE;
@@ -69,7 +69,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case DRIVEMARKER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 32);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 32);
                 } else {
                     isFinished = false;
                     state = State.END;
