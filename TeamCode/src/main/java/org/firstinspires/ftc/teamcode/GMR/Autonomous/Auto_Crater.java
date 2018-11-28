@@ -57,7 +57,7 @@ public class Auto_Crater extends OpMode {
                     }*/
                 case DRIVEOUT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.4, 2);
                     } else{
                         isFinished = false;
                         state = State.ROTATE;

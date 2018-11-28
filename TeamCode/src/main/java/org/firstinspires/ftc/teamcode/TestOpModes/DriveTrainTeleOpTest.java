@@ -36,10 +36,10 @@ public class DriveTrainTeleOpTest extends OpMode {
     @Override
     public void init() {
         
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftRear = hardwareMap.dcMotor.get("leftRear");
-        rightRear = hardwareMap.dcMotor.get("rightRear");
+        leftFront = hardwareMap.dcMotor.get("leftfront");
+        rightFront = hardwareMap.dcMotor.get("rightfront");
+        leftRear = hardwareMap.dcMotor.get("leftrear");
+        rightRear = hardwareMap.dcMotor.get("rightrear");
 
         power = 0.1;
         finches = 5;
