@@ -40,6 +40,6 @@ public class Robot {
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
         robotLift = new RobotLift(liftMotor, telemetry);
-        
+
     }
 }

@@ -16,12 +16,12 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 @Autonomous (name = "Auto_Crater")
 public class Auto_Crater extends OpMode {
     private Robot robot;
-
+/*
     private DcMotor leftFront;
     private DcMotor rightFront;
     private DcMotor leftRear;
     private DcMotor rightRear;
-
+*/
     private NavxMicroNavigationSensor gyroscope;
     private IntegratingGyroscope gyro;
 
@@ -33,14 +33,14 @@ public class Auto_Crater extends OpMode {
 
     @Override
     public void init() {
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        rightRear = hardwareMap.dcMotor.get("rightRear");
-        leftRear = hardwareMap.dcMotor.get("leftRear");
+        /*rightFront = hardwareMap.dcMotor.get("rightfront");
+        leftFront = hardwareMap.dcMotor.get("leftfront");
+        rightRear = hardwareMap.dcMotor.get("rightrear");
+        leftRear = hardwareMap.dcMotor.get("leftrear");
 
         soas = hardwareMap.servo.get("soas");
 
-        gyroscope = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");
+        gyroscope = hardwareMap.get (NavxMicroNavigationSensor.class, "navx");*/
 
         robot = new Robot(hardwareMap, telemetry);
 
@@ -51,6 +51,10 @@ public class Auto_Crater extends OpMode {
         @Override
         public void loop(){
             switch (state){
+                /*case RAISEHOOK:
+                    if (!isFinished) {
+                        isFinished = robot.robotLift;
+                    }*/
                 case DRIVEOUT:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2);
@@ -59,7 +63,7 @@ public class Auto_Crater extends OpMode {
                         state = State.ROTATE;
                     }
                     break;
-                case ROTATE:
+                /*case ROTATE:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                     } else {
@@ -69,7 +73,7 @@ public class Auto_Crater extends OpMode {
                     break;
                 case DRIVECRATER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 24);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 10);
                     } else{
                         isFinished = false;
                         state = State.DROPSOAS;
@@ -84,6 +88,6 @@ public class Auto_Crater extends OpMode {
                 case END:
                     robot.driveTrain.stop();
                     break;
-            }
+            }*/
         }
-}
+}}

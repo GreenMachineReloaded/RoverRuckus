@@ -17,13 +17,13 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 @Autonomous(name = "Auto_Deposit", group = "Blue")
 public class Auto_Deposit extends OpMode {
     private Robot robot;
-
+/*
     private DcMotor leftFront;
     private DcMotor rightFront;
     private DcMotor leftRear;
     private DcMotor rightRear;
 
-    private NavxMicroNavigationSensor gyroscope;
+    private NavxMicroNavigationSensor gyroscope; */
     private IntegratingGyroscope gyro;
 
     private Servo soas;
@@ -34,14 +34,14 @@ public class Auto_Deposit extends OpMode {
 
     @Override
     public void init() {
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        rightRear = hardwareMap.dcMotor.get("rightRear");
-        leftRear = hardwareMap.dcMotor.get("leftRear");
+       /* rightFront = hardwareMap.dcMotor.get("rightfront");
+        leftFront = hardwareMap.dcMotor.get("leftfront");
+        rightRear = hardwareMap.dcMotor.get("rightrear");
+        leftRear = hardwareMap.dcMotor.get("leftrear");*/
 
         soas = hardwareMap.servo.get("soas");
 
-        gyroscope = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
+        //gyroscope = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
 
         robot = new Robot(hardwareMap, telemetry);
 
