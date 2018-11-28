@@ -63,11 +63,11 @@ public class RobotLift {
             encodersCanRun = false;
         }
         if(!encodersCanRun){
-            if(currentPos > newGoalPos){
+            if(currentPos > newGoalPos + 10){
                 liftMotor.setPower(-power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
-            } else if(currentPos < newGoalPos){
+            } else if(currentPos < newGoalPos - 10){
                 liftMotor.setPower(power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
