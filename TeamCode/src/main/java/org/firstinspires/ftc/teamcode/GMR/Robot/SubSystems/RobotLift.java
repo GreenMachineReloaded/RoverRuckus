@@ -29,7 +29,7 @@ public class RobotLift {
         this.encodersCanRun = true;
 
         LIFT_MIN = liftMotor.getCurrentPosition();
-        LIFT_MAX = LIFT_MIN - 3380;
+        LIFT_MAX = LIFT_MIN + 3380;
 
         autoLift = false;
     }
@@ -63,7 +63,11 @@ public class RobotLift {
         } else {
             if(autoLift){
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftMotor.setPower(0.25);
+                if(goalPos == LIFT_MAX){
+                    liftMotor.setPower(-0.25);
+                } else if(goalPos == LIFT_MIN){
+                    liftMotor.setPower(0.25);
+                }
                 liftMotor.setTargetPosition(goalPos);
             } else {
                 liftMotor.setPower(0.0);
