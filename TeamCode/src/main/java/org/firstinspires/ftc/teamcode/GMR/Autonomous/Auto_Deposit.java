@@ -45,20 +45,36 @@ public class Auto_Deposit extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        state = State.DRIVEOUT;
+        state = State.RAISEHOOK;
         isFinished = false;
     }
     @Override
     public void loop(){
         switch (state){
+            case RAISEHOOK:
+                if (!isFinished) {
+                    isFinished = robot.robotLift.setLift(1, 0.25);
+                }   else{
+                    isFinished = false;
+                    state = State.DRIVEOUT;
+                }
+                break;
             case DRIVEOUT:
                 if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
                 } else{
-                        isFinished = false;
-                        state = State.ROTATE;
-                    }
-                    break;
+                    isFinished = false;
+                    state = State.LOWERHOOK;
+                }
+                break;
+            case LOWERHOOK:
+                if (!isFinished) {
+                    isFinished = robot.robotLift.setLift(0, 0.25);
+                }   else{
+                    isFinished = false;
+                    state = State.ROTATE;
+                }
+                break;
             case ROTATE:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);

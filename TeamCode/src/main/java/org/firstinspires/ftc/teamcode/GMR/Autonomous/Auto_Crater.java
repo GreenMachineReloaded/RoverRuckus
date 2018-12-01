@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RobotLift;
 
 /**
  * Created by Arroz on 11/4/2018
@@ -44,21 +45,33 @@ public class Auto_Crater extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        state = State.DRIVEOUT;
+        state = State.RAISEHOOK;
         isFinished = false;
     }
 
         @Override
         public void loop(){
             switch (state){
-                /*case RAISEHOOK:
+                case RAISEHOOK:
                     if (!isFinished) {
-                        isFinished = robot.robotLift;
-                    }*/
+                        isFinished = robot.robotLift.setLift(1,0.25);
+                    }   else{
+                        isFinished = false;
+                        state = State.DRIVEOUT;
+                    }
+                    break;
                 case DRIVEOUT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.4, 2);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 2);
                     } else{
+                        isFinished = false;
+                        state = State.LOWERHOOK;
+                    }
+                    break;
+                case LOWERHOOK:
+                    if (!isFinished) {
+                        isFinished = robot.robotLift.setLift(0, 0.25);
+                    }   else{
                         isFinished = false;
                         state = State.ROTATE;
                     }
