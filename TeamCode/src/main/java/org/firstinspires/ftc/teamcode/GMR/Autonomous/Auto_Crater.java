@@ -57,13 +57,13 @@ public class Auto_Crater extends OpMode {
                     }*/
                 case DRIVEOUT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.4, 2);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.4, 2);
                     } else{
                         isFinished = false;
                         state = State.ROTATE;
                     }
                     break;
-                /*case ROTATE:
+                case ROTATE:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                     } else {
@@ -88,6 +88,6 @@ public class Auto_Crater extends OpMode {
                 case END:
                     robot.driveTrain.stop();
                     break;
-            }*/
+            }
         }
-}}
+}
