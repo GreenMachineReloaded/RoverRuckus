@@ -65,17 +65,17 @@ public class Auto_Crater extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 2);
                     } else{
                         isFinished = false;
-                        state = State.LOWERHOOK;
+                        state = State.ROTATE;
                     }
                     break;
-                case LOWERHOOK:
+                /*case LOWERHOOK:
                     if (!isFinished) {
                         isFinished = robot.robotLift.setLift(0, 0.25);
                     }   else{
                         isFinished = false;
                         state = State.ROTATE;
                     }
-                    break;
+                    break;*/
                 case ROTATE:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
