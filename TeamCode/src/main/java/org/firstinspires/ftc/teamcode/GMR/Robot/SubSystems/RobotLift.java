@@ -13,6 +13,8 @@ public class RobotLift {
 
     private boolean encodersCanRun;
 
+    private boolean autoLift;
+
     private final int LIFT_MIN;
     private final int LIFT_MAX;
 
@@ -27,26 +29,45 @@ public class RobotLift {
         this.encodersCanRun = true;
 
         LIFT_MIN = liftMotor.getCurrentPosition();
-        LIFT_MAX = LIFT_MIN + 2825;
+        LIFT_MAX = LIFT_MIN - 3380;
+
+        autoLift = false;
     }
 
-    public void lift (boolean bumper, float trigger) {
+    public void lift (boolean bumper, float trigger, boolean y, boolean a) {
         //CONTROLS: Bumper extends lift, trigger retracts lift
 
+        int goalPos = 0;
         if(bumper){
+            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             if(trigger == 1) {
                 liftMotor.setPower(0);
             } else {
                 liftMotor.setPower(-0.5);
+                autoLift = false;
             }
         } else if(trigger == 1) {
+            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             if(bumper){
                 liftMotor.setPower(0);
             } else {
                 liftMotor.setPower(0.5);
+                autoLift = false;
             }
+        } else if(y){
+            goalPos = LIFT_MAX;
+            autoLift = true;
+        } else if(a) {
+            goalPos = LIFT_MIN;
+            autoLift = true;
         } else {
-            liftMotor.setPower(0);
+            if(autoLift){
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftMotor.setPower(0.25);
+                liftMotor.setTargetPosition(goalPos);
+            } else {
+                liftMotor.setPower(0.0);
+            }
         }
         telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
     }
