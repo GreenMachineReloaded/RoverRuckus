@@ -86,7 +86,7 @@ public class Auto_Crater extends OpMode {
                     break;
                 case DRIVECRATER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 10);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 8);
                     } else{
                         isFinished = false;
                         state = State.DROPSOAS;

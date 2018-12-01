@@ -85,7 +85,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case DRIVEMARKER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 32);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 9);
                 } else {
                     isFinished = false;
                     state = State.END;
