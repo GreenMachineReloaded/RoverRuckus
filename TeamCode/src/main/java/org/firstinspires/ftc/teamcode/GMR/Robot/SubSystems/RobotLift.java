@@ -63,7 +63,11 @@ public class RobotLift {
         } else {
             if(autoLift){
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftMotor.setPower(0.25);
+                if(goalPos == LIFT_MAX){
+                    liftMotor.setPower(-0.25);
+                } else if(goalPos == LIFT_MIN){
+                    liftMotor.setPower(0.25);
+                }
                 liftMotor.setTargetPosition(goalPos);
             } else {
                 liftMotor.setPower(0.0);
