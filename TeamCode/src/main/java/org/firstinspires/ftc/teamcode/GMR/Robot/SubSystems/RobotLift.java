@@ -29,7 +29,7 @@ public class RobotLift {
         this.encodersCanRun = true;
 
         LIFT_MIN = liftMotor.getCurrentPosition();
-        LIFT_MAX = LIFT_MIN - 3380;
+        LIFT_MAX = LIFT_MIN + 3380;
 
         autoLift = false;
     }
