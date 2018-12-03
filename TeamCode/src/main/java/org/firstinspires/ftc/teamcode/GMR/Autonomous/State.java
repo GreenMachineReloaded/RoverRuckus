@@ -5,21 +5,8 @@ package org.firstinspires.ftc.teamcode.GMR.Autonomous;
  */
 
 public enum State {
-    TIME,
-    ARMDOWN,
-    READ,
-    LEFTZONE,
-    RIGHTZONE,
-    TURNBOX,
-    STRAFE,
+
     END,
-    GRAB,
-    DROP,
-    LIFT,
-    CLOSE,
-    DRIVEFORWARD,
-    OPEN,
-    BACKUPFROMBLOCK,
     ROTATE,
     DRIVEOUT,
     DRIVECRATER,

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 
+
 /**
  * Created by Arroz on 11/4/2018
  */
@@ -17,13 +18,12 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 @Autonomous(name = "Auto_Deposit", group = "Blue")
 public class Auto_Deposit extends OpMode {
     private Robot robot;
-/*
     private DcMotor leftFront;
     private DcMotor rightFront;
     private DcMotor leftRear;
     private DcMotor rightRear;
 
-    private NavxMicroNavigationSensor gyroscope; */
+        private NavxMicroNavigationSensor gyroscope; */
     private IntegratingGyroscope gyro;
 
     private Servo soas;
@@ -48,13 +48,14 @@ public class Auto_Deposit extends OpMode {
         state = State.RAISEHOOK;
         isFinished = false;
     }
+
     @Override
-    public void loop(){
-        switch (state){
+    public void loop() {
+        switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {
                     isFinished = robot.robotLift.setLift(1, 0.25);
-                }   else{
+                } else {
                     isFinished = false;
                     state = State.DRIVEOUT;
                 }
@@ -62,7 +63,7 @@ public class Auto_Deposit extends OpMode {
             case DRIVEOUT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
-                } else{
+                } else {
                     isFinished = false;
                     state = State.ROTATE;
                 }
@@ -77,7 +78,7 @@ public class Auto_Deposit extends OpMode {
                 break;*/
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 90);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMARKER;
@@ -85,15 +86,19 @@ public class Auto_Deposit extends OpMode {
                 break;
             case DRIVEMARKER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 9);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 9);
                 } else {
                     isFinished = false;
-                    state = State.END;
+                    state = State.DROPSOAS;
                 }
                 break;
+            case DROPSOAS:
+                soas.setPosition(0);
+                state = State.END;
             case END:
                 robot.driveTrain.stop();
                 break;
-    }
+        }
 
-} }
+    }
+}
