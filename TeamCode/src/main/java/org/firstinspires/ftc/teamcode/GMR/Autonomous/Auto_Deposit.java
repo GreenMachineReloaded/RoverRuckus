@@ -18,10 +18,11 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 @Autonomous(name = "Auto_Deposit", group = "Blue")
 public class Auto_Deposit extends OpMode {
     private Robot robot;
-    private DcMotor leftFront;
-    private DcMotor rightFront;
-    private DcMotor leftRear;
-    private DcMotor rightRear;
+    /*
+        private DcMotor leftFront;
+        private DcMotor rightFront;
+        private DcMotor leftRear;
+        private DcMotor rightRear;
 
         private NavxMicroNavigationSensor gyroscope; */
     private IntegratingGyroscope gyro;
