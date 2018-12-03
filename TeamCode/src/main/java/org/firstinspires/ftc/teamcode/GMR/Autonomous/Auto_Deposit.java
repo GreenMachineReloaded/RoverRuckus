@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 
+import javax.xml.transform.dom.DOMResult;
+
 
 /**
  * Created by Arroz on 11/4/2018
@@ -86,16 +88,43 @@ public class Auto_Deposit extends OpMode {
                 }
                 break;
             case DRIVEMARKER:
+                telemetry.addData("Running DRIVEMARKER", "");
+                telemetry.update();
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 9);
+                } else {
+                    telemetry.addData("Finished DRIVEMARKER","");
+                    telemetry.update();
+                    isFinished = false;
+                    state = State.ALLIGN;
+                }
+                break;
+            case ALLIGN:
+                telemetry.addData("RUNNING ALLIGN","");
+                telemetry.update();
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NNE, 0.2, 2);
+                } else {
+                    isFinished = false;
+                    state = State.BACKOUT;
+                }
+                break;
+            case BACKOUT:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.2, 1);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
                 }
                 break;
             case DROPSOAS:
-                soas.setPosition(0);
-                state = State.END;
+                if (!isFinished) {
+                    soas.setPosition(0);
+                } else {
+                    isFinished = false;
+                    state = State.END;
+                }
+                break;
             case END:
                 robot.driveTrain.stop();
                 break;

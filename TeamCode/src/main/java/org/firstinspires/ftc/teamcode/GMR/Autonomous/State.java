@@ -13,6 +13,9 @@ public enum State {
     DRIVEMARKER,
     DROPSOAS,
     RAISEHOOK,
+    RAISESOAS,
+    ALLIGN,
+    BACKOUT,
     LOWERHOOK,
-    PLACEMARKER
+    PLACEMARKER,
 }
