@@ -26,5 +26,6 @@ public enum States {
     DRIVEFORWARD,
     OPEN,
     BACKUPFROMBLOCK,
+    LOWERARM,
     ROTATE
 }
