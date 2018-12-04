@@ -31,7 +31,7 @@ public class CraterParkingTM extends OpMode
             case ROTATE:
                 // do something
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 135);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
                 }
                 // at the end, make sure to change the value of state
                 else {
@@ -44,7 +44,7 @@ public class CraterParkingTM extends OpMode
             case DRIVEFORWARD:
                 // do something
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 60);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 50);
                 }
                 else{
                     isFinished = false;
