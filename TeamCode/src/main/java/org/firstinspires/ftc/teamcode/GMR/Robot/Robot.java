@@ -25,6 +25,9 @@ public class Robot {
 
     private DcMotor liftMotor;
 
+    private DcMotor armMotor;
+    private int armEncoder;
+
     public Robot (HardwareMap hardwareMap, Telemetry telemetry){
 
         leftFront = hardwareMap.dcMotor.get("leftfront");
@@ -35,10 +38,25 @@ public class Robot {
 
         liftMotor = hardwareMap.dcMotor.get("liftmotor");
 
+        armMotor = hardwareMap.dcMotor.get("armmotor");
+
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
         robotLift = new RobotLift(liftMotor, telemetry);
+    }
 
+    public void rake(boolean bumper, float trigger){
+        if(bumper && trigger != 1){
+            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armMotor.setPower(1.0);
+        } else if (!bumper && trigger == 1){
+            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armMotor.setPower(-1.0);
+        } else {
+            armEncoder = armMotor.getCurrentPosition();
+            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armMotor.setTargetPosition(armEncoder);
+        }
     }
 }
