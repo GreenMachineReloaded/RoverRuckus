@@ -19,6 +19,7 @@ public class TeleOp_v1 extends OpMode {
     public void loop() {
         robot.driveTrain.setMotorPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.robotLift.lift(gamepad1.left_bumper, gamepad1.left_trigger, gamepad1.y, gamepad1.a);
+        robot.rake(gamepad1.right_bumper, gamepad1.right_trigger);
         telemetry.update();
     }
 }
