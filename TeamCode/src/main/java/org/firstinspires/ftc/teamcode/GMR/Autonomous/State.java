@@ -14,8 +14,15 @@ public enum State {
     DROPSOAS,
     RAISEHOOK,
     RAISESOAS,
-    ALLIGN,
+    ALIGN,
     BACKOUT,
     LOWERHOOK,
     PLACEMARKER,
+    TURNRIGHT,
+    RAISESERVO,
+    ROTATEBOT,
+    DRIVEFORWARD,
+    DROPSERVO,
+    LOWERARM,
+
 }

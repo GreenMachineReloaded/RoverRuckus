@@ -12,6 +12,9 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 
 import javax.xml.transform.dom.DOMResult;
 
+import static org.firstinspires.ftc.teamcode.GMR.Autonomous.State.END;
+import static org.firstinspires.ftc.teamcode.GMR.Autonomous.State.RAISESOAS;
+
 
 /**
  * Created by Arroz on 11/4/2018
@@ -43,10 +46,12 @@ public class Auto_Deposit extends OpMode {
         leftRear = hardwareMap.dcMotor.get("leftrear");*/
 
         soas = hardwareMap.servo.get("soas");
+        soas.setPosition(0);
 
         //gyroscope = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
 
         robot = new Robot(hardwareMap, telemetry);
+
 
         state = State.RAISEHOOK;
         isFinished = false;
@@ -57,7 +62,7 @@ public class Auto_Deposit extends OpMode {
         switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {
-                    isFinished = robot.robotLift.setLift(1, 0.25);
+                    isFinished = robot.robotLift.setLift(.986, 0.25);
                 } else {
                     isFinished = false;
                     state = State.DRIVEOUT;
@@ -81,7 +86,7 @@ public class Auto_Deposit extends OpMode {
                 break;*/
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 90);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMARKER;
@@ -96,36 +101,82 @@ public class Auto_Deposit extends OpMode {
                     telemetry.addData("Finished DRIVEMARKER","");
                     telemetry.update();
                     isFinished = false;
-                    state = State.ALLIGN;
+                    state = State.TURNRIGHT;
                 }
                 break;
-            case ALLIGN:
-                telemetry.addData("RUNNING ALLIGN","");
-                telemetry.update();
-                if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NNE, 0.2, 2);
-                } else {
-                    isFinished = false;
-                    state = State.BACKOUT;
-                }
-                break;
-            case BACKOUT:
-                if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.2, 1);
+
+                case TURNRIGHT:
+                if (!isFinished){
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, .5,70);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
                 }
                 break;
+
+
             case DROPSOAS:
+                if (!isFinished) {
+                    soas.setPosition(0.50);
+                } else {
+                    isFinished = false;
+                    state = State.DROPSERVO;
+                }
+
+            case RAISESERVO:
                 if (!isFinished) {
                     soas.setPosition(0);
                 } else {
                     isFinished = false;
-                    state = State.END;
+                    state = State.ROTATEBOT;
                 }
+
+            case ROTATEBOT:
+                // do something
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
+                }
+                // at the end, make sure to change the value of state
+                else {
+                    isFinished = false;
+                    state = State.DRIVEFORWARD;
+                }
+
                 break;
-            case END:
+
+            case DRIVEFORWARD:
+                // do something
+                if (!isFinished){
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 50);
+                }
+                else{
+                    isFinished = false;
+                    state = State.LOWERARM;
+                }
+
+                break;
+
+            case LOWERARM:
+                // do something
+                if (!isFinished){
+                    soas.setPosition(0);
+                }
+                else {
+                    isFinished = false;
+                    state = RAISESOAS;
+                }
+            case RAISESOAS:
+                if (!isFinished){
+                    soas.setPosition(0.50);
+                }
+                else {
+                    isFinished = false;
+                    state = END;
+                }
+
+                break;
+
+             case END:
                 robot.driveTrain.stop();
                 break;
         }

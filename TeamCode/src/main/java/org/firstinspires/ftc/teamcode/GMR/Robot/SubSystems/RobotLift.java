@@ -29,7 +29,10 @@ public class RobotLift {
         this.encodersCanRun = true;
 
         LIFT_MIN = liftMotor.getCurrentPosition();
-        LIFT_MAX = LIFT_MIN + 3380;
+        LIFT_MAX = LIFT_MIN - 3380;
+
+        telemetry.addData("LIFT_MIN", LIFT_MIN);
+        telemetry.addData("LIFT_MAX", LIFT_MAX);
 
         autoLift = false;
     }
@@ -83,19 +86,23 @@ public class RobotLift {
         goalPos = Range.clip(goalPos, 0.0, 1.0);
         goalPos = Range.scale(goalPos, 0.0, 1.0, LIFT_MIN, LIFT_MAX);
         int newGoalPos;
-        newGoalPos = (int) -Math.round(goalPos);
+        newGoalPos = (int) Math.round(goalPos);
         if(encodersCanRun){
             encodersCanRun = false;
         }
         if(!encodersCanRun){
-            if(currentPos > newGoalPos + 10){
+            if(currentPos > newGoalPos + 20){
                 liftMotor.setPower(-power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
-            } else if(currentPos < newGoalPos - 10){
+                telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
+                telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
+            } else if(currentPos < newGoalPos - 20){
                 liftMotor.setPower(power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
+                telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
+                telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
             } else {
                 encodersCanRun = true;
                 liftMotor.setPower(0.0);
