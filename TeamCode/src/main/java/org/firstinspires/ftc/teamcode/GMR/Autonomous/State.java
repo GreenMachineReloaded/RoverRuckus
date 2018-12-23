@@ -24,5 +24,6 @@ public enum State {
     DRIVEFORWARD,
     DROPSERVO,
     LOWERARM,
+    ROTATECRATER
 
 }

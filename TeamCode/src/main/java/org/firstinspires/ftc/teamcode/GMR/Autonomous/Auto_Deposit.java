@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
@@ -37,6 +38,8 @@ public class Auto_Deposit extends OpMode {
     private State state;
 
     private boolean isFinished;
+
+    private ElapsedTime time = new ElapsedTime();
 
     @Override
     public void init() {
@@ -107,72 +110,59 @@ public class Auto_Deposit extends OpMode {
 
                 case TURNRIGHT:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, .5,70);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,70);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
+                    time.reset();
                 }
                 break;
 
-
             case DROPSOAS:
-                if (!isFinished) {
-                    soas.setPosition(0.50);
-                } else {
-                    isFinished = false;
-                    state = State.DROPSERVO;
-                }
+                soas.setPosition(0.50);
+                if (time.seconds() >=1){
+                state = State.RAISESERVO;
+            }
+                break;
 
             case RAISESERVO:
-                if (!isFinished) {
                     soas.setPosition(0);
-                } else {
-                    isFinished = false;
                     state = State.ROTATEBOT;
-                }
+                break;
 
             case ROTATEBOT:
-                // do something
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
-                }
-                // at the end, make sure to change the value of state
-                else {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
+                } else {
                     isFinished = false;
                     state = State.DRIVEFORWARD;
-                }
+                    }
 
                 break;
 
             case DRIVEFORWARD:
-                // do something
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 50);
-                }
-                else{
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 14);
+                    //test this
+                } else{
                     isFinished = false;
-                    state = State.LOWERARM;
-                }
+                    state = State.ROTATECRATER;
+                    }
 
                 break;
 
+            case ROTATECRATER:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 75);
+                } else{
+                    isFinished = false;
+                    state = State.LOWERARM;
+                    }
+                break;
+
             case LOWERARM:
-                // do something
-                if (!isFinished){
-                    soas.setPosition(0);
-                }
-                else {
-                    isFinished = false;
-                    state = RAISESOAS;
-                }
-            case RAISESOAS:
-                if (!isFinished){
-                    soas.setPosition(0.50);
-                }
-                else {
-                    isFinished = false;
+                    soas.setPosition(0.5);
                     state = END;
-                }
 
                 break;
 
