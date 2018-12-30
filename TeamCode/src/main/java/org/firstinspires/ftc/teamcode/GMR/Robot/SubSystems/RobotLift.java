@@ -37,6 +37,7 @@ public class RobotLift {
         autoLift = false;
     }
 
+    //TODO: FIX AUTO LIFT
     public void lift (boolean bumper, float trigger, boolean y, boolean a) {
         //CONTROLS: Bumper extends lift, trigger retracts lift
 
@@ -57,7 +58,6 @@ public class RobotLift {
                 liftMotor.setPower(0.5);
                 autoLift = false;
             }
-            //TODO: FIX AUTO LIFT
         } else if(y){
             goalPos = LIFT_MAX;
             autoLift = true;
