@@ -104,7 +104,7 @@ public class Auto_Deposit extends OpMode {
                 } else {
                     isFinished = false;
                     state = State.DRIVEFORWARD;
-                    }
+                }
                 break;
             case DRIVEFORWARD:
                 if (!isFinished){
@@ -112,8 +112,7 @@ public class Auto_Deposit extends OpMode {
                 } else{
                     isFinished = false;
                     state = State.ROTATECRATER;
-                    }
-
+                }
                 break;
             case ROTATECRATER:
                 if (!isFinished) {
