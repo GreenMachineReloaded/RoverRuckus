@@ -57,6 +57,7 @@ public class RobotLift {
                 liftMotor.setPower(0.5);
                 autoLift = false;
             }
+            //TODO: FIX AUTO LIFT
         } else if(y){
             goalPos = LIFT_MAX;
             autoLift = true;
