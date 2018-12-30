@@ -142,7 +142,7 @@ public class Auto_Deposit extends OpMode {
 
             case DRIVEFORWARD:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 14);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 14.7);
                     //test this
                 } else{
                     isFinished = false;
@@ -153,7 +153,7 @@ public class Auto_Deposit extends OpMode {
 
             case ROTATECRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 75);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
                 } else{
                     isFinished = false;
                     state = State.LOWERARM;
