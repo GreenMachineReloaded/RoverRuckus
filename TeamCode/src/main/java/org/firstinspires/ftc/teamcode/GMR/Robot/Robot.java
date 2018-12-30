@@ -51,11 +51,19 @@ public class Robot {
         robotLift = new RobotLift(liftMotor, telemetry);
     }
 
+    public void dropSoas() {
+        soas.setPosition(0.5);
+    }
+
+    public void liftSoas() {
+        soas.setPosition(0);
+    }
+
     public void runServo(boolean a, boolean x) {
         if (a) {
-            soas.setPosition(0);
+            liftSoas();
         } else if (x) {
-            soas.setPosition(0.5);
+            dropSoas();
         }
     }
 

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.GMR.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
@@ -20,8 +18,6 @@ public class Auto_Deposit extends OpMode {
 
     private Robot robot;
 
-    private Servo soas;
-
     private State state;
 
     private boolean isFinished;
@@ -31,10 +27,9 @@ public class Auto_Deposit extends OpMode {
     @Override
     public void init() {
 
-        soas = hardwareMap.servo.get("soas");
-        soas.setPosition(0);;
-
         robot = new Robot(hardwareMap, telemetry);
+
+        robot.liftSoas();
 
         state = State.RAISEHOOK;
         isFinished = false;
@@ -89,13 +84,13 @@ public class Auto_Deposit extends OpMode {
                 }
                 break;
             case DROPSOAS:
-                soas.setPosition(0.50);
+                robot.dropSoas();
                 if (time.seconds() >=1){
                     state = State.RAISESERVO;
                 }
                 break;
             case RAISESERVO:
-                    soas.setPosition(0);
+                    robot.liftSoas();
                     state = State.ROTATEBOT;
                 break;
             case ROTATEBOT:
@@ -123,7 +118,7 @@ public class Auto_Deposit extends OpMode {
                 }
                 break;
             case LOWERARM:
-                    soas.setPosition(0.5);
+                    robot.dropSoas();
                     state = State.END;
                 break;
             case END:
