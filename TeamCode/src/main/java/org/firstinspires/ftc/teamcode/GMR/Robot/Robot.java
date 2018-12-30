@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
@@ -28,6 +29,8 @@ public class Robot {
     private DcMotor armMotor;
     private int armEncoder;
 
+    private Servo soas;
+
     public Robot (HardwareMap hardwareMap, Telemetry telemetry){
 
         leftFront = hardwareMap.dcMotor.get("leftfront");
@@ -40,10 +43,20 @@ public class Robot {
 
         armMotor = hardwareMap.dcMotor.get("armmotor");
 
+        soas = hardwareMap.servo.get("soas");
+
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
         robotLift = new RobotLift(liftMotor, telemetry);
+    }
+
+    public void runServo(boolean a, boolean x) {
+        if (a) {
+            soas.setPosition(0);
+        } else if (x) {
+            soas.setPosition(0.5);
+        }
     }
 
     public void rake(boolean bumper, float trigger){
