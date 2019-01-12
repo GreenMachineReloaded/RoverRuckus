@@ -52,7 +52,7 @@ public class Robot {
     }
 
     public void dropSoas() {
-        soas.setPosition(0.5);
+        soas.setPosition(0.7);
     }
 
     public void liftSoas() {

@@ -103,24 +103,13 @@ public class Auto_Deposit extends OpMode {
                 break;
             case DRIVEFORWARD:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 14.7);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 17);
                 } else{
                     isFinished = false;
-                    state = State.ROTATECRATER;
-                }
-                break;
-            case ROTATECRATER:
-                if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
-                } else{
-                    isFinished = false;
-                    state = State.LOWERARM;
-                }
-                break;
-            case LOWERARM:
-                    robot.dropSoas();
                     state = State.END;
+                }
                 break;
+
             case END:
                 robot.driveTrain.stop();
                 break;
