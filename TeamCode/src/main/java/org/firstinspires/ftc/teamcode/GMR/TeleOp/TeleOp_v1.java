@@ -21,7 +21,8 @@ public class TeleOp_v1 extends OpMode {
     public void loop() {
         robot.driveTrain.setMotorPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.robotLift.lift(gamepad1.left_bumper, gamepad1.left_trigger, gamepad1.y, gamepad1.a);
-        robot.rake(gamepad1.right_bumper, gamepad1.right_trigger);
+        robot.robotArm.extend(gamepad2.right_bumper, gamepad2.right_trigger);
+        //robot.robotArm.flippy(gamepad2.left_bumper, gamepad2.left_trigger);
         robot.runServo(gamepad1.a, gamepad1.x);
         telemetry.update();
     }
