@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 /**
  * Created by Arroz on 11/4/2018
  */
-@Autonomous (name = "Auto_Crater")
-public class Auto_Crater extends OpMode {
+@Autonomous (name = "Auto_Crater_Blue")
+public class Auto_Crater_Blue extends OpMode {
     private Robot robot;
 
     private State state;
