@@ -62,11 +62,19 @@ public class Auto_Deposit extends OpMode {
                     state = State.DRIVEMARKER;
                 }
                 break;
+            case DRIVEMID:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVEMARKER;
+                }
+                break;
             case DRIVEMARKER:
                 telemetry.addData("Running DRIVEMARKER", "");
                 telemetry.update();
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 9);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 7);
                 } else {
                     telemetry.addData("Finished DRIVEMARKER","");
                     telemetry.update();
@@ -91,9 +99,9 @@ public class Auto_Deposit extends OpMode {
                 break;
             case RAISESERVO:
                     robot.liftSoas();
-                    state = State.ROTATEBOT;
+                    state = State.END;
                 break;
-            case ROTATEBOT:
+            /*case ROTATEBOT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
                 } else {
@@ -101,7 +109,7 @@ public class Auto_Deposit extends OpMode {
                     state = State.DRIVEFORWARD;
                 }
                 break;
-            case DRIVEFORWARD:
+            /*case DRIVEFORWARD:
                 if (!isFinished){
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 17);
                 } else{
@@ -109,7 +117,7 @@ public class Auto_Deposit extends OpMode {
                     state = State.END;
                 }
                 break;
-
+*/
             case END:
                 robot.driveTrain.stop();
                 break;

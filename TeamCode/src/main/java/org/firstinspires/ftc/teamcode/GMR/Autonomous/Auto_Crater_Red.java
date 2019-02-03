@@ -75,7 +75,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case DRIVEFORWARD:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 8.5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 5.8);
                     } else {
                         isFinished = false;
                         state = State.ROTATELEFT;
@@ -83,7 +83,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case ROTATELEFT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 40);
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 50);
                     } else {
                         isFinished = false;
                         state = State.DRIVEMARKER;
@@ -91,7 +91,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case DRIVEMARKER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 14);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 16);
                     } else {
                         isFinished = false;
                         state = State.DROPSOAS;
