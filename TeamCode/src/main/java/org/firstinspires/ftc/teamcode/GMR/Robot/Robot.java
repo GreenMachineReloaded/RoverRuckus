@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RobotArm;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RobotLift;
 
 public class Robot {
@@ -17,6 +18,7 @@ public class Robot {
 
     public RobotLift robotLift;
 
+    public RobotArm robotArm;
 
     private DcMotor leftFront;
     private DcMotor leftRear;
@@ -26,8 +28,8 @@ public class Robot {
 
     private DcMotor liftMotor;
 
-    private DcMotor armMotor;
-    private int armEncoder;
+    private DcMotor armPulley;
+    private DcMotor armHinge;
 
     private Servo soas;
 
@@ -41,7 +43,8 @@ public class Robot {
 
         liftMotor = hardwareMap.dcMotor.get("liftmotor");
 
-        armMotor = hardwareMap.dcMotor.get("armmotor");
+        armPulley = hardwareMap.dcMotor.get("armpulley");
+        armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
 
@@ -49,6 +52,8 @@ public class Robot {
 
 
         robotLift = new RobotLift(liftMotor, telemetry);
+
+        robotArm = new RobotArm(armPulley, armHinge, telemetry);
     }
 
     public void dropSoas() {
@@ -67,17 +72,5 @@ public class Robot {
         }
     }
 
-    public void rake(boolean bumper, float trigger){
-        if(bumper && trigger != 1){
-            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armMotor.setPower(1.0);
-        } else if (!bumper && trigger == 1){
-            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armMotor.setPower(-1.0);
-        } else {
-            armEncoder = armMotor.getCurrentPosition();
-            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            armMotor.setTargetPosition(armEncoder);
-        }
-    }
+
 }
