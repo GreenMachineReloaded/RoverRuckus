@@ -59,6 +59,14 @@ public class Auto_Deposit_TeamMarker extends OpMode {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
                 } else {
                     isFinished = false;
+                    state = State.DRIVEMID;
+                }
+                break;
+            case DRIVEMID:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
+                } else {
+                    isFinished = false;
                     state = State.DRIVEMARKER;
                 }
                 break;
@@ -66,7 +74,7 @@ public class Auto_Deposit_TeamMarker extends OpMode {
                 telemetry.addData("Running DRIVEMARKER", "");
                 telemetry.update();
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 9);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 7);
                 } else {
                     telemetry.addData("Finished DRIVEMARKER", "");
                     telemetry.update();
