@@ -70,6 +70,15 @@ public class Auto_Deposit extends OpMode {
                     state = State.DRIVEMARKER;
                 }
                 break;
+                /*
+                String samplingResult = robot.camera.detectGold();
+                String samplingResult = "---";
+                if (samplingResult.equals("left") {
+                    // do something
+                  } else if (samplingResult.equals("center") {
+                    // do something else
+                }
+                 */
             case DRIVEMARKER:
                 telemetry.addData("Running DRIVEMARKER", "");
                 telemetry.update();
@@ -101,7 +110,7 @@ public class Auto_Deposit extends OpMode {
                     robot.liftSoas();
                     state = State.END;
                 break;
-            /*case ROTATEBOT:
+            case ROTATEBOT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
                 } else {
@@ -109,7 +118,7 @@ public class Auto_Deposit extends OpMode {
                     state = State.DRIVEFORWARD;
                 }
                 break;
-            /*case DRIVEFORWARD:
+            case DRIVEFORWARD:
                 if (!isFinished){
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 17);
                 } else{
@@ -117,7 +126,6 @@ public class Auto_Deposit extends OpMode {
                     state = State.END;
                 }
                 break;
-*/
             case END:
                 robot.driveTrain.stop();
                 break;
