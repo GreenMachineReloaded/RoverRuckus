@@ -70,14 +70,27 @@ public class Auto_Deposit extends OpMode {
                     state = State.DRIVEMARKER;
                 }
                 break;
-                /*
-                String samplingResult = robot.camera.detectGold();
+                /* THIS IS FOR AUTOCRATER
+                //String samplingResult = robot.camera.detectGold();
                 String samplingResult = "---";
                 if (samplingResult.equals("left") {
-                    // do something
+                    // robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 35);
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3.5);
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3.5);
+                    // robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 35);
                   } else if (samplingResult.equals("center") {
-                    // do something else
-                }
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3.5);
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3.5);
+                    // robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 70);????
+                  } else if (samplingResult.equals("right") {
+                    // robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 35);
+                    // robot.driveTrain.encodeDrive(DriveTrain.Direction.N, 0.5, 3.5);
+                    // robot.driveTrain.encodeDrive(DriveTrain.Direction.S, 0.5, 3.5);
+                  } else if (samplingResult.equals("null") {
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3.5);
+                    // robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3.5);
+                    // robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 70);?????
+                  }
                  */
             case DRIVEMARKER:
                 telemetry.addData("Running DRIVEMARKER", "");

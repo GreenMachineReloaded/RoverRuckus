@@ -57,12 +57,81 @@ public class Auto_Crater_Red extends OpMode {
                         state = State.DRIVEMID;
                     }
                     break;
+
+                case SAMPLING:
+                    //String samplingResult = robot.detectGold();
+                    String samplingResult = "left";
+                    if (samplingResult.equals("left")) {
+                        state = State.KNOCKLEFT;
+                    } else if (samplingResult.equals("center")) {
+                        state = State.KNOCKCENTER;
+                    } else if (samplingResult.equals("right")) {
+                        state = State.KNOCKRIGHT;
+                    } else if (samplingResult.equals("null")) {
+                        state = State.KNOCKCENTER;
+                    }
+                    break;
+
+                case KNOCKLEFT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NW, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.RETURNLEFT;
+                    }
+                    break;
+
+                case KNOCKCENTER:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.RETURNCENTER;
+                    }
+                    break;
+
+                case KNOCKRIGHT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NE, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.RETURNRIGHT;
+                    }
+                    break;
+
+                case RETURNLEFT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.SE, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+
+                case RETURNCENTER:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+
+                case RETURNRIGHT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.SW, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+
                 case DRIVEMID:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
                     } else {
                         isFinished = false;
-                        state = State.TURNLEFT;
+                        state = State.SAMPLING;
                     }
                     break;
                 case TURNLEFT:
@@ -112,6 +181,8 @@ public class Auto_Crater_Red extends OpMode {
                         state = State.RAISESERVO;
                     }
                     break;
+                case TURNRIGHT:
+                    break;
                 case RAISESERVO:
                     robot.liftSoas();
                     state = State.DRIVECRATER;
@@ -128,6 +199,12 @@ public class Auto_Crater_Red extends OpMode {
                     robot.driveTrain.stop();
                     break;
 
+                case ROTATEBOT:
+                    break;
+                case LOWERARM:
+                    break;
+                case ROTATECRATER:
+                    break;
             }
         }
 }
