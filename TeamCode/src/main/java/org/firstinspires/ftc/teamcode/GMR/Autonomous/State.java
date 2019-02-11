@@ -29,6 +29,7 @@ public enum State {
     KNOCKRIGHT,
     RETURNLEFT,
     RETURNCENTER,
-    RETURNRIGHT
+    RETURNRIGHT,
+    STRAFE
 
 }
