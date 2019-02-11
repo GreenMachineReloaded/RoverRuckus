@@ -26,7 +26,7 @@ public class RobotArm {
     public void extend(float joystick){
         if(joystick != 0.00){
             armPulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armPulley.setPower(joystick);
+            armPulley.setPower(-joystick/2);
         } else {
             armPulleyEncoder = armPulley.getCurrentPosition();
             armPulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
