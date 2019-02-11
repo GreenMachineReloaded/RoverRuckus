@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 
-@TeleOp(name = "TeleOp_v1")
+@TeleOp(name = "TeleOp_v2")
 public class TeleOp_v2 extends OpMode {
 
     private Robot robot;
@@ -21,7 +21,7 @@ public class TeleOp_v2 extends OpMode {
         robot.robotLift.lift(gamepad2.left_bumper, gamepad2.left_trigger, gamepad2.y, gamepad2.a);
         robot.robotArm.extend(gamepad2.left_stick_y);
         robot.robotArm.flippy(gamepad2.right_stick_y);
-        robot.robotArm.collect(gamepad2.left_bumper);
+        //robot.robotArm.collect(gamepad2.left_bumper);
         robot.runServo(gamepad1.a, gamepad1.x);
         telemetry.update();
     }

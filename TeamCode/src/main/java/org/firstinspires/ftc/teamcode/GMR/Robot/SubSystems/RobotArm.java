@@ -9,17 +9,17 @@ public class RobotArm {
 
     private DcMotor armPulley;
     private DcMotor armHinge;
-    private Servo collector;
+    //private Servo collector;
 
     private Telemetry telemetry;
 
     private int armPulleyEncoder;
     private int armHingeEncoder;
 
-    public RobotArm(DcMotor armPulley, DcMotor armHinge, Servo collector, Telemetry telemetry){
+    public RobotArm(DcMotor armPulley, DcMotor armHinge, Telemetry telemetry){
         this.armPulley = armPulley;
         this.armHinge = armHinge;
-        this.collector = collector;
+        //this.collector = collector;
         this.telemetry = telemetry;
     }
 
@@ -38,7 +38,7 @@ public class RobotArm {
     public void flippy(float joystick){
         if(joystick != 0.00){
             armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armHinge.setPower(joystick);
+            armHinge.setPower(joystick/2);
         } else {
             armHingeEncoder = armPulley.getCurrentPosition();
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -47,12 +47,12 @@ public class RobotArm {
         telemetry.addData("Hinge encoder value:", armHingeEncoder);
     }
 
-    public void collect(boolean bumper){
+    /*public void collect(boolean bumper){
         if(bumper){
             collector.setPosition(1.0);
         }
         else{
             collector.setPosition(0.5);
         }
-    }
+    }*/
 }
