@@ -55,7 +55,7 @@ public class Auto_Deposit extends OpMode {
                 }
                 break;
             case STRAFE:
-                if (isFinished) {
+                if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5, 1);
                 } else {
                     isFinished = false;
