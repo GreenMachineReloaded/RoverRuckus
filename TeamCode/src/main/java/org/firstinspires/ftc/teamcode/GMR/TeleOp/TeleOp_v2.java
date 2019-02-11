@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.GMR.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 
-@TeleOp(name = "TeleOp_v1")
-public class TeleOp_v1 extends OpMode {
+@TeleOp(name = "TeleOp_v2")
+public class TeleOp_v2 extends OpMode {
 
     private Robot robot;
 
@@ -21,8 +19,9 @@ public class TeleOp_v1 extends OpMode {
     public void loop() {
         robot.driveTrain.setMotorPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.robotLift.lift(gamepad2.left_bumper, gamepad2.left_trigger, gamepad2.y, gamepad2.a);
-        //robot.robotArm.extend(gamepad1.right_bumper, gamepad1.right_trigger);
-        //robot.robotArm.flippy(gamepad2.left_bumper, gamepad2.left_trigger);
+        robot.robotArm.extend(gamepad2.left_stick_y);
+        robot.robotArm.flippy(gamepad2.right_stick_y);
+        //robot.robotArm.collect(gamepad2.left_bumper);
         robot.runServo(gamepad1.a, gamepad1.x);
         telemetry.update();
     }

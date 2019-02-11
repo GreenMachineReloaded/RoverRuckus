@@ -41,14 +41,14 @@ public class Robot {
     private DcMotor armHinge;
 
     private Servo soas;
-    private Servo collector;
+    //private Servo collector;
 
-    private VuforiaLocalizer vuforia;
-    private TFObjectDetector tfod;
+    //private VuforiaLocalizer vuforia;
+    //private TFObjectDetector tfod;
 
-    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    //private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    //private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    //private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
 
     public Robot (HardwareMap hardwareMap, Telemetry telemetry){
@@ -65,16 +65,16 @@ public class Robot {
         armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
-        collector = hardwareMap.servo.get("collector");
+        //collector = hardwareMap.servo.get("collector");
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
         robotLift = new RobotLift(liftMotor, telemetry);
 
-        robotArm = new RobotArm(armPulley, armHinge, collector, telemetry);
+        robotArm = new RobotArm(armPulley, armHinge, telemetry);
 
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -84,10 +84,10 @@ public class Robot {
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);*/
     }
 
-    public String sample() {
+    /*public String sample() {
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
         if (updatedRecognitions != null) {
             if (updatedRecognitions.size() == 3) {
@@ -115,7 +115,7 @@ public class Robot {
             }
         }
         return null;
-    }
+    }*/
 
     public void dropSoas() {
         soas.setPosition(0.7);
