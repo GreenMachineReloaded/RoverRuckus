@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,17 +10,17 @@ public class RobotArm {
 
     private DcMotor armPulley;
     private DcMotor armHinge;
-    //private Servo collector;
+    private CRServo collector;
 
     private Telemetry telemetry;
 
     private int armPulleyEncoder;
     private int armHingeEncoder;
 
-    public RobotArm(DcMotor armPulley, DcMotor armHinge, Telemetry telemetry){
+    public RobotArm(DcMotor armPulley, DcMotor armHinge,CRServo collector, Telemetry telemetry){
         this.armPulley = armPulley;
         this.armHinge = armHinge;
-        //this.collector = collector;
+        this.collector = collector;
         this.telemetry = telemetry;
     }
 
@@ -47,12 +48,14 @@ public class RobotArm {
         telemetry.addData("Hinge encoder value:", armHingeEncoder);
     }
 
-    /*public void collect(boolean bumper){
+    public void collect(boolean bumper){
         if(bumper){
-            collector.setPosition(1.0);
+            collector.setPower(.25);
         }
         else{
-            collector.setPosition(0.5);
+            collector.setPower(0.0);
         }
-    }*/
+        telemetry.addData("Right bumber value: ", bumper);
+        telemetry.addData("Collector power: ", collector.getPower());
+    }
 }
