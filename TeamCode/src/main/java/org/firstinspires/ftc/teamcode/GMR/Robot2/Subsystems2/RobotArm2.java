@@ -24,6 +24,7 @@ public class RobotArm2 {
         this.armHinge = armHinge;
         this.collector = collector;
         this.telemetry = telemetry;
+        armPulley.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void extend(boolean bumper, float trigger){
@@ -57,14 +58,7 @@ public class RobotArm2 {
             armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armHinge.setPower(0.25);
         } else {
-            if ((Math.abs(currentHingePosition - armHinge.getCurrentPosition())) > 10)  {
-                currentHingePosition = armHinge.getCurrentPosition();
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
-            } else {
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
-            }
+            armHinge.setPower(0.0);
         }
         telemetry.addData("Hinge encoder value:", armPulley.getCurrentPosition());
         telemetry.addData("Hinge goal position:", currentHingePosition);
