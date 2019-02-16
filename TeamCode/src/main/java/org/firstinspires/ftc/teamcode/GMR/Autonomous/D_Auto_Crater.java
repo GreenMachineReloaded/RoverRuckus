@@ -64,7 +64,7 @@ public class D_Auto_Crater extends OpMode {
                 break;
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 90);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMID;
@@ -73,7 +73,7 @@ public class D_Auto_Crater extends OpMode {
 
             case DRIVEMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 1);
                 } else {
                     isFinished = false;
                     state = State.TURNLEFT;
@@ -209,7 +209,7 @@ public class D_Auto_Crater extends OpMode {
                 break;
             case DRIVEFORWARD:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 5.8);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 5.8);
                 } else {
                     isFinished = false;
                     state = State.ROTATELEFT;
@@ -225,7 +225,7 @@ public class D_Auto_Crater extends OpMode {
                 break;
             case DRIVEMARKER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 16);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 16);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
@@ -254,7 +254,7 @@ public class D_Auto_Crater extends OpMode {
                 break;
             case DRIVECRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 20);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 20);
                 } else {
                     isFinished = false;
                     state = State.END;
