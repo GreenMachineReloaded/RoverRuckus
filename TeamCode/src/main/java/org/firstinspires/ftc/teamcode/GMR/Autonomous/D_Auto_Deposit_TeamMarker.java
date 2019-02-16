@@ -29,7 +29,7 @@ public class D_Auto_Deposit_TeamMarker extends OpMode {
         robot = new Robot(hardwareMap, telemetry);
         state = State.DELAY;
         isFinished = false;
-
+        time.reset();
     }
 
     @Override
@@ -37,7 +37,6 @@ public class D_Auto_Deposit_TeamMarker extends OpMode {
         telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
-                time.reset();
                 if (time.seconds() >=5)
                     state = State.RAISEHOOK;
             case RAISEHOOK:

@@ -29,6 +29,7 @@ public class D_Auto_Deposit_Park extends OpMode {
         robot = new Robot(hardwareMap, telemetry);
         state = State.DELAY;
         isFinished = false;
+        time.reset();
 
     }
 
@@ -37,7 +38,6 @@ public class D_Auto_Deposit_Park extends OpMode {
         telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
-                time.reset();
                 if (time.seconds() >=5)
                     state = State.DRIVEOUT;
                 break;
