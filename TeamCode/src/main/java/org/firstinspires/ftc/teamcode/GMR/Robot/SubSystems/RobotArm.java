@@ -24,6 +24,7 @@ public class RobotArm {
         this.armHinge = armHinge;
         this.collector = collector;
         this.telemetry = telemetry;
+        this.armHinge.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void extend(float joystick){
@@ -39,22 +40,10 @@ public class RobotArm {
     }
 
     public void flippy(float joystick){
-        if(joystick != 0.00){
-            currentHingePosition = armHinge.getCurrentPosition();
-            armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armHinge.setPower(joystick/4);
-        } else {
-            if ((Math.abs(currentHingePosition - armHinge.getCurrentPosition())) > 10)  {
-                currentHingePosition = armHinge.getCurrentPosition();
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
-            } else {
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
-            }
-        }
+        armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armHinge.setPower(joystick/4);
         telemetry.addData("Hinge encoder value:", armPulley.getCurrentPosition());
-        telemetry.addData("Hinge goal position:", currentHingePosition);
+        // telemetry.addData("Hinge goal position:", currentHingePosition);
     }
 
     public void collect(boolean bumper){
