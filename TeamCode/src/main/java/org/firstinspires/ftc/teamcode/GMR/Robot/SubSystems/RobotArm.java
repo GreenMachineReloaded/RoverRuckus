@@ -50,7 +50,7 @@ public class RobotArm {
 
     public void collect(boolean bumper){
         if(bumper){
-            collector.setPower(.25);
+            collector.setPower(-1.0);
         }
         else{
             collector.setPower(0.0);
