@@ -14,6 +14,7 @@ public class RobotArm {
     private Telemetry telemetry;
 
     private int armPulleyEncoder;
+    private int currentHingePosition;
     private int targetHingePosition;
 
     private boolean isLifting = false;
@@ -34,24 +35,26 @@ public class RobotArm {
             armPulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armPulley.setTargetPosition(armPulleyEncoder);
         }
-        telemetry.addData("Pulley encoder value:", armPulleyEncoder);
+        // telemetry.addData("Pulley encoder value:", armPulleyEncoder);
     }
 
     public void flippy(float joystick){
         if(joystick != 0.00){
+            currentHingePosition = armHinge.getCurrentPosition();
             armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armHinge.setPower(joystick/2);
-            isLifting = true;
-        } else if (isLifting) {
-            isLifting = false;
-            targetHingePosition = armPulley.getCurrentPosition();
+            armHinge.setPower(joystick/4);
         } else {
-            armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            armHinge.setTargetPosition(targetHingePosition);
-            telemetry.addData("Hinge target position:", targetHingePosition);
+            if ((Math.abs(currentHingePosition - armHinge.getCurrentPosition())) > 10)  {
+                currentHingePosition = armHinge.getCurrentPosition();
+                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armHinge.setTargetPosition(currentHingePosition);
+            } else {
+                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armHinge.setTargetPosition(currentHingePosition);
+            }
         }
         telemetry.addData("Hinge encoder value:", armPulley.getCurrentPosition());
-
+        telemetry.addData("Hinge goal position:", currentHingePosition);
     }
 
     public void collect(boolean bumper){
@@ -61,7 +64,7 @@ public class RobotArm {
         else{
             collector.setPower(0.0);
         }
-        telemetry.addData("Right bumber value: ", bumper);
-        telemetry.addData("Collector power: ", collector.getPower());
+        // telemetry.addData("Right bumber value: ", bumper);
+        // telemetry.addData("Collector power: ", collector.getPower());
     }
 }
