@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.GMR.Robot;
 
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class Robot {
 
-    private static final String VUFORIA_KEY = "AeMOrwX/////AAABmfT7G+QwOkX8tJ01GKNfSHpTu0AM83Vojwk9rAY53xCbB6Xjb0JRAvKsBmLnSyKvi9Ly2CHSxI2CvWwVwUSjdUP20+VyT9ZW2LS+cc6cZQNjA+QiG6XUwyzloO/O1CMhJW+Idn6v6fCwuWQQZqIHeZpm3DO+/XvO+jN3utA1L5RycBsdvoJP3JhEazHENhYJ1mPEN6vICe5AZIAZMImZ2qiNbEk0lLwqequHuuDVkgoTPvIheK9J9Mk9YzirjsVVVM2LG27KKVvxmoxYWwQ+35jWe7ij1+yvJvedinzJLf6DEYJltnV/OfNVKcKsht2tiC8Ihq7MacpCZ40EpwyjceLHgJK8Fq4NHWl87f1jFfhD";
+    //private static final String VUFORIA_KEY = "AeMOrwX/////AAABmfT7G+QwOkX8tJ01GKNfSHpTu0AM83Vojwk9rAY53xCbB6Xjb0JRAvKsBmLnSyKvi9Ly2CHSxI2CvWwVwUSjdUP20+VyT9ZW2LS+cc6cZQNjA+QiG6XUwyzloO/O1CMhJW+Idn6v6fCwuWQQZqIHeZpm3DO+/XvO+jN3utA1L5RycBsdvoJP3JhEazHENhYJ1mPEN6vICe5AZIAZMImZ2qiNbEk0lLwqequHuuDVkgoTPvIheK9J9Mk9YzirjsVVVM2LG27KKVvxmoxYWwQ+35jWe7ij1+yvJvedinzJLf6DEYJltnV/OfNVKcKsht2tiC8Ihq7MacpCZ40EpwyjceLHgJK8Fq4NHWl87f1jFfhD";
 
     public DriveTrain driveTrain;
 
@@ -41,14 +42,14 @@ public class Robot {
     private DcMotor armHinge;
 
     private Servo soas;
-    //private Servo collector;
+     private CRServo collector;
 
-    //private VuforiaLocalizer vuforia;
-    //private TFObjectDetector tfod;
+    /*private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
 
-    //private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    //private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    //private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";*/
 
 
     public Robot (HardwareMap hardwareMap, Telemetry telemetry){
@@ -65,14 +66,14 @@ public class Robot {
         armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
-        //collector = hardwareMap.servo.get("collector");
+        collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
         robotLift = new RobotLift(liftMotor, telemetry);
 
-        robotArm = new RobotArm(armPulley, armHinge, telemetry);
+        robotArm = new RobotArm(armPulley, armHinge, collector, telemetry);
 
         /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
