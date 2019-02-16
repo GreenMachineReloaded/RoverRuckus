@@ -37,6 +37,7 @@ public class Auto_Deposit_TeamMarker extends OpMode {
 
     @Override
     public void loop() {
+        telemetry.addData("State: ", state);
         switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {
