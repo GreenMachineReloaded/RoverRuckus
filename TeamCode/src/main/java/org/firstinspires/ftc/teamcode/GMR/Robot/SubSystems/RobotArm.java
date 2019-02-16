@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -15,7 +14,9 @@ public class RobotArm {
     private Telemetry telemetry;
 
     private int armPulleyEncoder;
-    private int armHingeEncoder;
+    private int targetHingePosition;
+
+    private boolean isLifting = false;
 
     public RobotArm(DcMotor armPulley, DcMotor armHinge,CRServo collector, Telemetry telemetry){
         this.armPulley = armPulley;
@@ -40,12 +41,17 @@ public class RobotArm {
         if(joystick != 0.00){
             armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armHinge.setPower(joystick/2);
+            isLifting = true;
+        } else if (isLifting) {
+            isLifting = false;
+            targetHingePosition = armPulley.getCurrentPosition();
         } else {
-            armHingeEncoder = armPulley.getCurrentPosition();
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            armHinge.setTargetPosition(armHingeEncoder);
+            armHinge.setTargetPosition(targetHingePosition);
+            telemetry.addData("Hinge target position:", targetHingePosition);
         }
-        telemetry.addData("Hinge encoder value:", armHingeEncoder);
+        telemetry.addData("Hinge encoder value:", armPulley.getCurrentPosition());
+
     }
 
     public void collect(boolean bumper){
