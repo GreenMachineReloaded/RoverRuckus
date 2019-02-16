@@ -32,6 +32,7 @@ public class Auto_Crater_Park extends OpMode {
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {

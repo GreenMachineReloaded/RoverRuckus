@@ -32,9 +32,9 @@ public class Auto_Crater_Red extends OpMode {
 
         @Override
         public void loop(){
+            telemetry.addData("State: ", state);
             switch (state) {
                 case RAISEHOOK:
-                    telemetry.addData("State: ", state);
                     if (!isFinished) {
                         isFinished = robot.robotLift.setLift(1, 0.25);
                     } else {

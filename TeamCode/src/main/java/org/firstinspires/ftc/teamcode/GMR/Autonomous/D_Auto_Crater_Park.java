@@ -32,6 +32,7 @@ public class D_Auto_Crater_Park extends OpMode {
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
                 time.reset();

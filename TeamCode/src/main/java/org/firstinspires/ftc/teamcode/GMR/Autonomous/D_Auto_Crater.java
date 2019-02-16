@@ -32,13 +32,13 @@ public class D_Auto_Crater extends OpMode {
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
                 time.reset();
                 if (time.seconds() >=5)
                     state = State.RAISEHOOK;
             case RAISEHOOK:
-                telemetry.addData("State: ", state);
                 if (!isFinished) {
                     isFinished = robot.robotLift.setLift(1, 0.25);
                 } else {

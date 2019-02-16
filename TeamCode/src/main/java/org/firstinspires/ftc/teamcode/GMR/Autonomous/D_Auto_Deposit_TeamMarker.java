@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
  * Created by Arroz on 11/4/2018
  */
 
-@Autonomous(name = "Auto_Deposit_TeamMarker", group = "Blue")
+@Autonomous(name = "D_Auto_Deposit_TeamMarker", group = "Blue")
 public class D_Auto_Deposit_TeamMarker extends OpMode {
 
     private Robot robot;
@@ -34,6 +34,7 @@ public class D_Auto_Deposit_TeamMarker extends OpMode {
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
                 time.reset();

@@ -34,6 +34,7 @@ public class D_Auto_Deposit extends OpMode {
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case DELAY:
                 time.reset();
@@ -68,7 +69,7 @@ public class D_Auto_Deposit extends OpMode {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
                 } else {
                     isFinished = false;
-                    state = State.SAMPLING;
+                    state = State.DRIVEMID;
                 }
                 break;
             case DRIVEMID:
@@ -79,7 +80,7 @@ public class D_Auto_Deposit extends OpMode {
                     state = State.DRIVEMARKER;
                 }
                 break;
-            case SAMPLING:
+            /*case SAMPLING:
                 //String samplingResult = robot.detectGold();
                 String samplingResult = "left";
                 if (samplingResult.equals("left")) {
@@ -139,7 +140,7 @@ public class D_Auto_Deposit extends OpMode {
                     isFinished = false;
                     state = State.DRIVEMID;
                 }
-                break;
+                break;*/
             case DRIVEMARKER:
                 telemetry.addData("Running DRIVEMARKER", "");
                 telemetry.update();

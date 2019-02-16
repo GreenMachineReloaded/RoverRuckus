@@ -33,6 +33,7 @@ public class Auto_Land extends OpMode{
 
     @Override
     public void loop(){
+        telemetry.addData("State: ", state);
         switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {
