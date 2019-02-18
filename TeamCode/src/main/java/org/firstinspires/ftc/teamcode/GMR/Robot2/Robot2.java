@@ -21,7 +21,7 @@ public class Robot2 {
 
     public DriveTrain2 driveTrain;
 
-    public RobotLift2 robotLift;
+    public RobotLift robotLift;
 
     public RobotArm2 robotArm;
 
@@ -58,15 +58,15 @@ public class Robot2 {
         liftMotor = hardwareMap.dcMotor.get("liftmotor");
 
         armPulley = hardwareMap.dcMotor.get("armpulley");
-        armHinge = hardwareMap.dcMotor.get("armhinge");
+        // armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
-        collector = hardwareMap.crservo.get("collector");
+        // collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain2(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
-        robotLift = new RobotLift2(liftMotor, telemetry);
+        robotLift = new RobotLift(liftMotor, telemetry);
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
 

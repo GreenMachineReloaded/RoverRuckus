@@ -65,7 +65,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 65);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 70);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMID;
@@ -154,7 +154,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case TURNRIGHT:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,70);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,75);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
@@ -169,7 +169,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case RAISESERVO:
                     robot.liftSoas();
-                    state = State.END;
+                    state = State.ROTATEBOT;
                 break;
             case ROTATEBOT:
                 if (!isFinished) {
@@ -181,7 +181,7 @@ public class Auto_Deposit extends OpMode {
                 break;
             case DRIVEFORWARD:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 17);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 18.5);
                 } else{
                     isFinished = false;
                     state = State.END;
