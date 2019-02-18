@@ -6,7 +6,10 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 
 public class Camera {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
@@ -48,11 +51,44 @@ public class Camera {
         telemetry.addData("TFOD", " ready");
     }
 
+    public Mineral sampleSingle() {
+        if(tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if(updatedRecognitions != null) {
+                telemetry.addData("# Objects detected: ", updatedRecognitions.size());
+                if(updatedRecognitions.size() == 1) {
+                    Recognition recognition = updatedRecognitions.get(0);
+                    if(recognition.getLabel().equals(LABEL_GOLD_MINERAL)){
+                        return Mineral.GOLD;
+                    } else if(recognition.getLabel().equals(LABEL_SILVER_MINERAL)){
+                        return Mineral.SILVER;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
     public void activate() {
         tfod.activate();
     }
 
     public void deactivate() {
         tfod.deactivate();
+    }
+
+    public enum Mineral {
+        GOLD,
+        SILVER
+    }
+
+    public enum position {
+        LEFT,
+        CENTER,
+        RIGHT
     }
 }
