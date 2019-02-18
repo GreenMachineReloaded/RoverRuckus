@@ -71,13 +71,14 @@ public class RobotArm2 {
     }
 
     public void collect(boolean bumper){
+        //collector.setPower(-trigger);
         if(bumper){
-            collector.setPower(-0.75);
+            collector.setPower(-0.80);
         }
         else{
             collector.setPower(0.0);
         }
         // telemetry.addData("Right bumber value: ", bumper);
-        // telemetry.addData("Collector power: ", collector.getPower());
+        telemetry.addData("Collector power: ", collector.getPower());
     }
 }

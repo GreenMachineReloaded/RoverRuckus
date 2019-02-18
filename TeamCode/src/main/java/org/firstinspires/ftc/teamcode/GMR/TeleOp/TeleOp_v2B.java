@@ -22,7 +22,7 @@ public class TeleOp_v2B extends OpMode {
         robot.robotLift.lift(gamepad2.left_bumper, gamepad2.left_trigger, false, false);
         robot.robotArm.extend(gamepad1.left_bumper, gamepad1.left_trigger);
         // robot.robotArm.flippy(gamepad1.right_bumper, gamepad1.right_trigger);
-        // robot.robotArm.collect(gamepad2.right_bumper);
+        robot.robotArm.collect(gamepad2.right_bumper);
         robot.runServo(gamepad2.a, gamepad2.x);
         //telemetry.addData("Gold Position:", robot.sample());
         telemetry.update();
