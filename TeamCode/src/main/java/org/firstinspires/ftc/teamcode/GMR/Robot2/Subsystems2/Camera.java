@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -16,28 +17,36 @@ public class Camera {
     private VuforiaLocalizer.Parameters parameters;
 
     private TFObjectDetector tfod;
+    private int tfodMonitorViewId;
 
     private WebcamName webcam;
-    public Camera(WebcamName webcam){
+
+    private Telemetry telemetry;
+    public Camera(WebcamName webcam, Telemetry telemetry, int tfodMonitorViewId){
         this.webcam = webcam;
+        this.tfodMonitorViewId = tfodMonitorViewId;
+        this.telemetry = telemetry;
+
         parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        
-    }
+        //ADD hardwareMap for camera to Robot \/
+        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
-        //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            //ADD hardwareMap for tfodMonitorViewId \/
+        } else {
+            telemetry.addData("Device incompatible with TFOD! ", "Please use other devices");
+        }
+    }
+
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
 }
