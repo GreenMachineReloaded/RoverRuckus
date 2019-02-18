@@ -56,6 +56,7 @@ public class Camera {
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if(updatedRecognitions != null) {
                 telemetry.addData("# Objects detected: ", updatedRecognitions.size());
+                telemetry.update();
                 if(updatedRecognitions.size() == 1) {
                     Recognition recognition = updatedRecognitions.get(0);
                     if(recognition.getLabel().equals(LABEL_GOLD_MINERAL)){
@@ -80,6 +81,11 @@ public class Camera {
     public void deactivate() {
         tfod.deactivate();
     }
+
+    public void shutdown() {
+        tfod.shutdown();
+    }
+
 
     public enum Mineral {
         GOLD,

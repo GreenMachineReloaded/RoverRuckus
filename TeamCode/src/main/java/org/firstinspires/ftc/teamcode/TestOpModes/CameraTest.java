@@ -20,6 +20,17 @@ public class CameraTest extends OpMode {
     }
     @Override
     public void loop() {
-        camera.deactivate();
+        if(camera.sampleSingle() == Camera.Mineral.GOLD) {
+            telemetry.addData("Found mineral: ", "Gold");
+        } else if(camera.sampleSingle() == Camera.Mineral.SILVER) {
+            telemetry.addData("Found mineral: ", "Silver");
+        } else if(camera.sampleSingle() == null) {
+            telemetry.addData("Found mineral: ", "Unknown");
+        }
+        telemetry.update();
+    }
+    @Override
+    public void stop() {
+        camera.shutdown();
     }
 }
