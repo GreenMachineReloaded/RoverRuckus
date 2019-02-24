@@ -37,6 +37,8 @@ public enum State {
     RIGHTBACKWARDS,
     LEFTROTATION,
     RIGHTROTATION,
-    DELAY
+    DELAY,
+    STRAFELEFT,
+    DRIVEBACKWARD,
 
 }
