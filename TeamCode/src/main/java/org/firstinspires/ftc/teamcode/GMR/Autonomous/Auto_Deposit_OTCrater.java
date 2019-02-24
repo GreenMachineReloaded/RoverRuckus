@@ -65,7 +65,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 70);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 85);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMID;
@@ -73,10 +73,10 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case DRIVEMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2.25);
                 } else {
                     isFinished = false;
-                    state = State.DRIVEMARKER;
+                    state = State.DRIVELEFT;
                 }
                 break;
             /*case SAMPLING:
@@ -140,25 +140,37 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     state = State.DRIVEMID;
                 }
                 break;*/
-            case DRIVEMARKER:
-                telemetry.addData("Running DRIVEMARKER", "");
-                telemetry.update();
+            case DRIVELEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 7);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.5, 10 );
                 } else {
-                    telemetry.addData("Finished DRIVEMARKER","");
-                    telemetry.update();
                     isFinished = false;
-                    state = State.TURNRIGHT;
+                    state = State.ROTATELEFT;
                 }
                 break;
-            case TURNRIGHT:
-                if (!isFinished){
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,75);
+
+            case ROTATELEFT:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT,0.5,45);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVETOWALL;
+                }
+                break;
+            case DRIVETOWALL:
+                if (isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,3);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVEDEPOT;
+                }
+                break;
+            case DRIVEDEPOT:
+                if (isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,10);
                 } else {
                     isFinished = false;
                     state = State.DROPSOAS;
-                    time.reset();
                 }
                 break;
             case DROPSOAS:
@@ -169,28 +181,12 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case RAISESERVO:
                 robot.liftSoas();
-                state = State.ROTATEBOT;
-                break;
-            case ROTATEBOT:
-                if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 35);
-                } else {
-                    isFinished = false;
-                    state = State.STRAFELEFT;
-                }
+                state = State.STRAFELEFT;
                 break;
             case STRAFELEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.5,3);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.5,16);
                 } else {
-                    isFinished = false;
-                    state = State.DRIVEBACKWARD;
-                }
-                break;
-            case DRIVEBACKWARD:
-                if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 20);
-                } else{
                     isFinished = false;
                     state = State.END;
                 }

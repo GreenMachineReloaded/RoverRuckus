@@ -40,5 +40,11 @@ public enum State {
     DELAY,
     STRAFELEFT,
     DRIVEBACKWARD,
+    DRIVERIGHT,
+    DRIVELEFT,
+    DRIVETODEPOT,
+    DRIVETWALL,
+    DRIVEDEPOT,
+    DRIVETOWALL
 
 }
