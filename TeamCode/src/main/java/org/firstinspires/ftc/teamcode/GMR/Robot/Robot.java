@@ -63,10 +63,10 @@ public class Robot {
         liftMotor = hardwareMap.dcMotor.get("liftmotor");
 
         armPulley = hardwareMap.dcMotor.get("armpulley");
-        armHinge = hardwareMap.dcMotor.get("armhinge");
+        // armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
-        collector = hardwareMap.crservo.get("collector");
+        // collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
@@ -128,9 +128,9 @@ public class Robot {
 
     public void runServo(boolean a, boolean x) {
         if (a) {
-            liftSoas();
+            soas.setPosition(0.7);
         } else if (x) {
-            dropSoas();
+            soas.setPosition(0.0);
         }
     }
 

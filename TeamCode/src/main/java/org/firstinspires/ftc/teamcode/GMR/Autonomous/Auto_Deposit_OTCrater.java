@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
  * Created by Arroz on 11/4/2018
  */
 
-@Autonomous(name = "Auto_Deposit", group = "Blue")
-public class Auto_Deposit extends OpMode {
+@Autonomous(name = "Auto_Deposit_OTCrater", group = "Blue")
+public class Auto_Deposit_OTCrater extends OpMode {
 
     private Robot robot;
 
@@ -168,20 +168,28 @@ public class Auto_Deposit extends OpMode {
                 }
                 break;
             case RAISESERVO:
-                    robot.liftSoas();
-                    state = State.ROTATEBOT;
+                robot.liftSoas();
+                state = State.ROTATEBOT;
                 break;
             case ROTATEBOT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 35);
                 } else {
                     isFinished = false;
-                    state = State.DRIVEFORWARD;
+                    state = State.STRAFELEFT;
                 }
                 break;
-            case DRIVEFORWARD:
+            case STRAFELEFT:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.5,3);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVEBACKWARD;
+                }
+                break;
+            case DRIVEBACKWARD:
                 if (!isFinished){
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 18.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 20);
                 } else{
                     isFinished = false;
                     state = State.END;
@@ -194,3 +202,4 @@ public class Auto_Deposit extends OpMode {
 
     }
 }
+

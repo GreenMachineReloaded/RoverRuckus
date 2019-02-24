@@ -13,11 +13,9 @@ public class RobotArm2 {
 
     private Telemetry telemetry;
 
-    private int armPulleyEncoder;
-    private int currentHingePosition;
     private int targetHingePosition;
+    private int targetPulleyPosition;
 
-    private boolean isLifting = false;
 
     public RobotArm2(DcMotor armPulley, DcMotor armHinge, CRServo collector, Telemetry telemetry){
         this.armPulley = armPulley;
@@ -26,58 +24,41 @@ public class RobotArm2 {
         this.telemetry = telemetry;
     }
 
-    public void extend(boolean bumper, float trigger){
-        if(bumper && trigger != 1.0) {
-            armPulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armPulley.setPower(-0.5);
-        } else if(!bumper && trigger == 1.0) {
-            armPulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armPulley.setPower(0.5);
-        } else if(!bumper && trigger != 1.0) {
-            armPulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armPulley.setPower(0.0);
-        } else if(bumper && trigger == 1.0){
-            armPulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armPulley.setPower(0.0);
-        } else {
-            armPulleyEncoder = armPulley.getCurrentPosition();
-            armPulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            armPulley.setTargetPosition(armPulleyEncoder);
-        }
-        // telemetry.addData("Pulley encoder value:", armPulleyEncoder);
+    public void extend(boolean bumper, float trigger) {
+        targetPulleyPosition = runMotorAndHoldPosition(bumper, trigger, armPulley, 0.5f, targetPulleyPosition);
     }
 
-    public void flippy(boolean bumper, float trigger){
-        if(bumper && trigger != 1.0) {
-            currentHingePosition = armHinge.getCurrentPosition();
-            armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armHinge.setPower(-0.25);
-        } else if(!bumper && trigger == 1.0) {
-            currentHingePosition = armHinge.getCurrentPosition();
-            armHinge.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armHinge.setPower(0.25);
+    public void flippy(boolean bumper, float trigger) {
+        targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, 0.25f, targetHingePosition);
+    }
+
+    public void collect(boolean bumper, float trigger){
+        if (bumper && trigger != 1.0) {
+            collector.setPower(0.80);
+        }
+        else if (!bumper && trigger == 1.0) {
+            collector.setPower(-0.80);
         } else {
-            if ((Math.abs(currentHingePosition - armHinge.getCurrentPosition())) > 10)  {
-                currentHingePosition = armHinge.getCurrentPosition();
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
-            } else {
-                armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                armHinge.setTargetPosition(currentHingePosition);
+            collector.setPower(0);
+        }
+    }
+
+    private int runMotorAndHoldPosition(boolean bumper, float trigger, DcMotor motor, float power, int targetEncoderPosition) {
+        if (bumper && trigger != 1.0) {
+            targetEncoderPosition = motor.getCurrentPosition();
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setPower(-power);
+        } else if (!bumper && trigger == 1.0) {
+            targetEncoderPosition = motor.getCurrentPosition();
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setPower(power);
+        } else {
+            if ((Math.abs(targetEncoderPosition - motor.getCurrentPosition())) > 10) {
+                targetEncoderPosition = motor.getCurrentPosition();
             }
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motor.setTargetPosition(targetEncoderPosition);
         }
-        telemetry.addData("Hinge encoder value:", armPulley.getCurrentPosition());
-        telemetry.addData("Hinge goal position:", currentHingePosition);
-    }
-
-    public void collect(boolean bumper){
-        if(bumper){
-            collector.setPower(-1.0);
-        }
-        else{
-            collector.setPower(0.0);
-        }
-        // telemetry.addData("Right bumber value: ", bumper);
-        // telemetry.addData("Collector power: ", collector.getPower());
+        return targetEncoderPosition;
     }
 }

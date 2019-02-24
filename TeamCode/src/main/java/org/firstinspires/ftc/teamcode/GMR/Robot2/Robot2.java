@@ -19,9 +19,9 @@ public class Robot2 {
 
     //private static final String VUFORIA_KEY = "AeMOrwX/////AAABmfT7G+QwOkX8tJ01GKNfSHpTu0AM83Vojwk9rAY53xCbB6Xjb0JRAvKsBmLnSyKvi9Ly2CHSxI2CvWwVwUSjdUP20+VyT9ZW2LS+cc6cZQNjA+QiG6XUwyzloO/O1CMhJW+Idn6v6fCwuWQQZqIHeZpm3DO+/XvO+jN3utA1L5RycBsdvoJP3JhEazHENhYJ1mPEN6vICe5AZIAZMImZ2qiNbEk0lLwqequHuuDVkgoTPvIheK9J9Mk9YzirjsVVVM2LG27KKVvxmoxYWwQ+35jWe7ij1+yvJvedinzJLf6DEYJltnV/OfNVKcKsht2tiC8Ihq7MacpCZ40EpwyjceLHgJK8Fq4NHWl87f1jFfhD";
 
-    public DriveTrain2 driveTrain;
+    public DriveTrain driveTrain;
 
-    public RobotLift2 robotLift;
+    public RobotLift robotLift;
 
     public RobotArm2 robotArm;
 
@@ -63,10 +63,10 @@ public class Robot2 {
         soas = hardwareMap.servo.get("soas");
         collector = hardwareMap.crservo.get("collector");
 
-        driveTrain = new DriveTrain2(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
+        driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
 
-        robotLift = new RobotLift2(liftMotor, telemetry);
+        robotLift = new RobotLift(liftMotor, telemetry);
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
 

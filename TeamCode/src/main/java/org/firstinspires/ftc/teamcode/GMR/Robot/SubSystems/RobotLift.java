@@ -85,7 +85,9 @@ public class RobotLift {
 
         int currentPos = liftMotor.getCurrentPosition();
         goalPos = Range.clip(goalPos, 0.0, 1.0);
+        //goalPos = 1.0 - goalPos;
         goalPos = Range.scale(goalPos, 0.0, 1.0, LIFT_MIN, LIFT_MAX);
+
         int newGoalPos;
         newGoalPos = (int) Math.round(goalPos);
         if(encodersCanRun){
@@ -93,13 +95,13 @@ public class RobotLift {
         }
         if(!encodersCanRun){
             if(currentPos > newGoalPos + 20){
-                liftMotor.setPower(-power);
+                liftMotor.setPower(power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
                 telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
                 telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
             } else if(currentPos < newGoalPos - 20){
-                liftMotor.setPower(power);
+                liftMotor.setPower(-power);
                 telemetry.addData("Current Lift Value:", currentPos);
                 telemetry.addData("Lift Goal Value:", newGoalPos);
                 telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
