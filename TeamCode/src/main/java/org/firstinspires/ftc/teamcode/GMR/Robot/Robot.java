@@ -123,14 +123,14 @@ public class Robot {
     }
 
     public void liftSoas() {
-        soas.setPosition(0);
+        soas.setPosition(0.1);
     }
 
     public void runServo(boolean a, boolean x) {
         if (a) {
             soas.setPosition(0.7);
         } else if (x) {
-            soas.setPosition(0.0);
+            soas.setPosition(0.1);
         }
     }
 
