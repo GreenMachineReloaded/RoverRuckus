@@ -12,23 +12,24 @@ import static android.os.SystemClock.sleep;
 public class CameraTest extends OpMode {
 
     private Camera camera;
+    private Camera.Mineral mineral;
+    private boolean isPressed;
 
     @Override
     public void init() {
         camera = new Camera(hardwareMap, telemetry);
         camera.activate();
+        isPressed = false;
     }
     @Override
     public void loop() {
-        if(camera.sampleSingle() == Camera.Mineral.GOLD) {
-            telemetry.addData("Found mineral: ", "Gold");
-        } else if(camera.sampleSingle() == Camera.Mineral.SILVER) {
-            telemetry.addData("Found mineral: ", "Silver");
-        } else if(camera.sampleSingle() == null) {
-            telemetry.addData("Found mineral: ", "Unknown");
+        if(gamepad1.a && !isPressed){
+            //camera.recordData();
+            isPressed = true;
+        } else if(isPressed){
+            isPressed = false;
         }
-        telemetry.update();
-    }
+        }
     @Override
     public void stop() {
         camera.shutdown();

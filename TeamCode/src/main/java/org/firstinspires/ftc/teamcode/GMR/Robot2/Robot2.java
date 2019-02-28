@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RobotArm;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.RobotLift;
+import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.Camera;
 import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.DriveTrain2;
 import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.RobotArm2;
 import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.RobotLift2;
@@ -24,6 +25,8 @@ public class Robot2 {
     public RobotLift robotLift;
 
     public RobotArm2 robotArm;
+
+    public Camera camera;
 
     private DcMotor leftFront;
     private DcMotor leftRear;
@@ -65,10 +68,11 @@ public class Robot2 {
 
         driveTrain = new DriveTrain2(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
-
         robotLift = new RobotLift(liftMotor, telemetry);
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
+
+        camera = new Camera(hardwareMap, telemetry);
 
         /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
