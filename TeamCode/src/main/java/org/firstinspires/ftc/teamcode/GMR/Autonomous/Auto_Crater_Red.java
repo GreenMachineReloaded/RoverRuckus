@@ -74,8 +74,7 @@ public class Auto_Crater_Red extends OpMode {
                         isFinished = false;
                         state = State.TURNLEFT;
                     }
-                    break;
-                /*case SAMPLING:
+                        /*case SAMPLING:
                     //String samplingResult = robot.detectGold();
                     String samplingResult = "left";
                     if (samplingResult.equals("left")) {
