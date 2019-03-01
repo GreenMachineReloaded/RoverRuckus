@@ -121,7 +121,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.5,3);
                 } else {
                     isFinished = false;
-                    state = State.SAMPLEMINRIGHT:
+                    state = State.SAMPLEMINRIGHT;
                 }
                     /*case SAMPLING:
                 //String samplingResult = robot.detectGold();
