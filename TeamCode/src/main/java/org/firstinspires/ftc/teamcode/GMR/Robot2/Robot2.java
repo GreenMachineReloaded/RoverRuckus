@@ -61,7 +61,7 @@ public class Robot2 {
         armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
-        telemetry.addData("soas value", soas.getPosition());
+
         collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);

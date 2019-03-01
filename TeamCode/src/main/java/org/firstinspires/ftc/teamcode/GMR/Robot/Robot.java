@@ -42,7 +42,9 @@ public class Robot {
     private DcMotor armHinge;
 
     private Servo soas;
-     private CRServo collector;
+    private CRServo collector;
+
+    private Telemetry telemetry;
 
     /*private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -66,6 +68,7 @@ public class Robot {
         // armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
+        soas.setDirection(Servo.Direction.REVERSE);
         // collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
@@ -74,6 +77,7 @@ public class Robot {
         robotLift = new RobotLift(liftMotor, telemetry);
 
         robotArm = new RobotArm(armPulley, armHinge, collector, telemetry);
+        this.telemetry = telemetry;
 
         /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
