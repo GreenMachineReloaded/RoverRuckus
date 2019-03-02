@@ -26,7 +26,7 @@ public class Auto_Crater_Red extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        robot.liftSoas();
+        //robot.liftSoas();
 
         state = State.RAISEHOOK;
         isFinished = false;
@@ -79,7 +79,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case TURNTOBALL:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 9.5f);
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 8.5f);
                     } else {
                         isFinished = false;
                         state = State.STRAFETOBALL;
@@ -107,12 +107,12 @@ public class Auto_Crater_Red extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
                     } else {
                         isFinished = false;
-                        state = State.RETURNRIGHT;
+                        state = State.KNOCKRIGHT;
                     }
                     break;
                 case KNOCKRIGHT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 1.5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.25);
                     } else {
                         isFinished = false;
                         state = State.RETURNRIGHT;
@@ -120,7 +120,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case RETURNRIGHT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 1.5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
                     } else {
                         isFinished = false;
                         state = State.STRAFELEFTFROMRIGHT;
@@ -131,7 +131,7 @@ public class Auto_Crater_Red extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 10.2);
                     } else {
                         isFinished = false;
-                        state = State.TURNLEFT;
+                        state = State.END;//TURNLEFT;
                     }
                     break;
                 case STRAFETOCENTER:
@@ -153,15 +153,15 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case STRAFETOGOLDFROMCENTER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1);
                     } else {
                         isFinished = false;
-                        state = State.RETURNMID;
+                        state = State.KNOCKMID;
                     }
                     break;
                 case KNOCKMID:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.5);
                     } else {
                         isFinished = false;
                         state = State.RETURNMID;
@@ -177,7 +177,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case STRAFELEFTFROMMID:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 4.5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 5.5);
                     } else {
                         isFinished = false;
                         state = State.END;//TURNLEFT;
@@ -207,7 +207,7 @@ public class Auto_Crater_Red extends OpMode {
                         state = State.TURNLEFT;
                     }
                     break;
-               case TURNLEFT:
+                case TURNLEFT:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 70);
                     } else {
@@ -254,8 +254,6 @@ public class Auto_Crater_Red extends OpMode {
                         state = State.RAISESERVO;
                     }
                     break;
-                case TURNRIGHT:
-                    break;
                 case RAISESERVO:
                     robot.liftSoas();
                     state = State.DRIVECRATER;
@@ -269,6 +267,16 @@ public class Auto_Crater_Red extends OpMode {
                     }
                     break;
                 case END:
+                    if (!isFinished) {
+                        //~~~~~~~~~~~~~~~~~~~~~TAKE OUT LATER~~~~~~~~~~~~~~~~~~~~~~
+                        isFinished = robot.robotLift.setLift(0, 0.25);
+                        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    } else {
+                        isFinished = false;
+                        state = State.FINALE;
+                    }
+                    break;
+                case FINALE:
                     robot.driveTrain.stop();
                     break;
 

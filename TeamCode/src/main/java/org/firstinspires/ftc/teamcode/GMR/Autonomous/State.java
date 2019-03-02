@@ -62,6 +62,8 @@ public enum State {
     BACKUP,
     ROTATELEFTTOCRATER,
     SAMPLEMINRIGHT,
-    KNOCKCENTER
+    KNOCKCENTER,
+    //TEMPORARY:
+    FINALE
 
 }
