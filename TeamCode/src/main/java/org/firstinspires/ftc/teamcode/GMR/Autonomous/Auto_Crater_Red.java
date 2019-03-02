@@ -136,7 +136,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case STRAFETOCENTER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 5);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 4.5);
                     } else {
                         isFinished = false;
                         state = State.SAMPLEMID;
@@ -201,7 +201,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case RETURNLEFT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3);
                     } else {
                         isFinished = false;
                         state = State.END;//TURNLEFT;
