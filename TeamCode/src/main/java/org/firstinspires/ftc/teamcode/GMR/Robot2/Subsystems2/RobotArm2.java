@@ -35,14 +35,18 @@ public class RobotArm2 {
     }
 
     public void flippy(boolean bumper, float trigger, boolean y) {
+        float power = 0.25f;
+        if(Math.abs(armHinge.getCurrentPosition() - ARM_SCORING_POSITION) <= 300){
+            power = 0.10f;
+        }
         if (y) {
-            armHinge.setPower(0.25);
+            armHinge.setPower(-power);
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armHinge.setTargetPosition(ARM_SCORING_POSITION);
         } else {
             telemetry.addData("Initial arm position: ", initialArmPosition);
             telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
-            targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, 0.25f, targetHingePosition);
+            targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, power, targetHingePosition);
         }
     }
 
