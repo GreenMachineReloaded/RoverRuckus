@@ -26,7 +26,7 @@ public class RobotArm2 {
         this.collector = collector;
         this.telemetry = telemetry;
         initialArmPosition = this.armHinge.getCurrentPosition();
-        ARM_SCORING_POSITION = initialArmPosition + 100;
+        ARM_SCORING_POSITION = initialArmPosition;
     }
 
     public void extend(boolean bumper, float trigger) {
@@ -34,13 +34,14 @@ public class RobotArm2 {
     }
 
     public void flippy(boolean bumper, float trigger, boolean y) {
-        /*if (y) {
+        if (y) {
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armHinge.setTargetPosition(ARM_SCORING_POSITION);
-        }*/
-        telemetry.addData("Initial arm position: ", initialArmPosition);
-        telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
-        targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, 0.25f, targetHingePosition);
+        } else {
+            telemetry.addData("Initial arm position: ", initialArmPosition);
+            telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
+            targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, 0.25f, targetHingePosition);
+        }
     }
 
     public void collect(boolean bumper, float trigger){
