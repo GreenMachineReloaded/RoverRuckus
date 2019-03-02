@@ -259,7 +259,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     state = State.END;
                 }
                 break;
-                
+
             case END:
                 robot.driveTrain.stop();
                 break;
