@@ -41,7 +41,7 @@ public class Camera {
     private int tfodMonitorViewId;
     private TFObjectDetector.Parameters tfodParameters;
 
-    private File cameraDataTextDirectory;
+    /*private File cameraDataTextDirectory;
     private File cameraDataText;
     private File cameraDataCaptureDirectory;
     private File cameraDataCapture;
@@ -53,7 +53,7 @@ public class Camera {
     private BlockingQueue queue;
     private VuforiaLocalizer.CloseableFrame frame;
     private State state;
-    public Image rgb;
+    public Image rgb;*/
 
 
     private Telemetry telemetry;
@@ -80,12 +80,13 @@ public class Camera {
         }
         telemetry.addData("TFOD", " ready");
 
-        frameGenerator = new VuforiaFrameGenerator(vuforia, 0);
+        //frameGenerator = new VuforiaFrameGenerator(vuforia, 0);
     }
 
     public Mineral sampleSingle() {
-        //CHANGE TO BOOLEAN RETURN
+        Mineral output = Mineral.UNKNOWN;
         if(tfod != null) {
+            activate();
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if(updatedRecognitions != null) {
                 telemetry.addData("# Objects detected: ", updatedRecognitions.size());
@@ -93,18 +94,83 @@ public class Camera {
                 if(updatedRecognitions.size() == 1) {
                     Recognition recognition = updatedRecognitions.get(0);
                     if(recognition.getLabel().equals(LABEL_GOLD_MINERAL)){
-                        return Mineral.GOLD;
+                        output = Mineral.GOLD;
+                        telemetry.addData("Object detected: ", "GOLD");
+                        telemetry.addData("Confidence: ", recognition.getConfidence()*100+"%");
                     } else if(recognition.getLabel().equals(LABEL_SILVER_MINERAL)){
-                        return Mineral.SILVER;
-                    } else {
-                        return null;
+                        output = Mineral.SILVER;
+                        telemetry.addData("Object detected: ", "SILVER");
+                        telemetry.addData("Confidence: ", recognition.getConfidence()*100+"%");
+                    } else{
+                        telemetry.addData("Object detected: ", "UNKNOWN");
                     }
-                } else {
-                    return null;
                 }
             }
         }
-        return null;
+        return output;
+    }
+
+    public Mineral sampleTolerance(){
+        double tolerance = tfodParameters.minimumConfidence;
+        tfodParameters.minimumConfidence = .90;
+        Mineral output = Mineral.UNKNOWN;
+        if(tfod != null) {
+            activate();
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if(updatedRecognitions != null) {
+                telemetry.addData("# Objects detected: ", updatedRecognitions.size());
+                //telemetry.update();
+                if(updatedRecognitions.size() == 1) {
+                    Recognition recognition = updatedRecognitions.get(0);
+                    if(recognition.getLabel().equals(LABEL_GOLD_MINERAL)){
+                        output = Mineral.GOLD;
+                        telemetry.addData("Object detected: ", "GOLD");
+                        telemetry.addData("Confidence: ", recognition.getConfidence()*100+"%");
+                    } else if(recognition.getLabel().equals(LABEL_SILVER_MINERAL)){
+                        output = Mineral.SILVER;
+                        telemetry.addData("Object detected: ", "SILVER");
+                        telemetry.addData("Confidence: ", recognition.getConfidence()*100+"%");
+                    } else{
+                        telemetry.addData("Object detected: ", "UNKNOWN");
+                    }
+                }
+            }
+        }
+        tfodParameters.minimumConfidence = tolerance;
+        return output;
+    }
+
+    public Mineral sampleHighest(){
+        Mineral output = Mineral.UNKNOWN;
+        double outputConfidence = 0.00;
+        if(tfod != null){
+            activate();
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if(updatedRecognitions != null) {
+                telemetry.addData("# Objects detected: ", updatedRecognitions.size());
+                for(Recognition recognition : updatedRecognitions){
+                    if(recognition.getConfidence() > outputConfidence){
+                        outputConfidence = recognition.getConfidence();
+                        if(recognition.getLabel() == LABEL_SILVER_MINERAL){
+                            output = Mineral.SILVER;
+                        } else if(recognition.getLabel() == LABEL_GOLD_MINERAL){
+                            output = Mineral.GOLD;
+                        }
+                    }
+                }
+
+            }
+        }
+        if(output == Mineral.SILVER){
+            telemetry.addData("Object detected: ", "SILVER");
+            telemetry.addData("Confidence: ", outputConfidence*100+"%");
+        } else if(output == Mineral.GOLD) {
+            telemetry.addData("Object detected: ", "GOLD");
+            telemetry.addData("Confidence: ", outputConfidence * 100 + "%");
+        } else {
+            telemetry.addData("Object detected: ", "UNKNOWN");
+        }
+        return output;
     }
 
     /*public void recordData(){
@@ -173,7 +239,8 @@ public class Camera {
 
     public enum Mineral {
         GOLD,
-        SILVER
+        SILVER,
+        UNKNOWN
     }
 
     public enum position {

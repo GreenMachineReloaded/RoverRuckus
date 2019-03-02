@@ -72,7 +72,8 @@ public class Robot2 {
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
 
-        camera = new Camera(hardwareMap, telemetry);
+        //camera = new Camera(hardwareMap, telemetry);
+        //camera.activate();
 
         /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
