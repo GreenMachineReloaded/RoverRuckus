@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.Camera;
 
 /**
  * Created by Arroz on 11/4/2018
@@ -15,9 +16,12 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 public class Auto_Crater_Sampling extends OpMode {
     private Robot robot;
 
+    private Camera camera;
+
     private State state;
 
     private boolean isFinished;
+    private Camera.Mineral samplingResult = Camera.Mineral.UNKNOWN;
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -25,8 +29,10 @@ public class Auto_Crater_Sampling extends OpMode {
     public void init() {
 
         robot = new Robot(hardwareMap, telemetry);
+        camera = new Camera(hardwareMap, telemetry);
+        camera.activate();
 
-        //robot.liftSoas();
+        robot.liftSoas();
 
         state = State.RAISEHOOK;
         isFinished = false;
@@ -94,12 +100,11 @@ public class Auto_Crater_Sampling extends OpMode {
                 }
                 break;
             case SAMPLERIGHT:
-                // samplingResult = robot.detectGold();
-                boolean samplingResult = false;
-                if (samplingResult) {
-                    state = State.STRAFETOGOLDFROMRIGHT;
-                } else {
+                samplingResult = camera.sampleHighest();
+                if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
                     state = State.STRAFETOCENTER;
+                } else if (samplingResult == Camera.Mineral.GOLD) {
+                    state = State.STRAFETOGOLDFROMRIGHT;
                 }
                 break;
             case STRAFETOGOLDFROMRIGHT:
@@ -143,12 +148,13 @@ public class Auto_Crater_Sampling extends OpMode {
                 }
                 break;
             case SAMPLEMID:
-                // boolean samplingResult = robot.detectGold();
-                samplingResult = false;
-                if (samplingResult) {
-                    state = State.STRAFETOGOLDFROMCENTER;
-                } else {
-                    state = State.STRAFETOLEFT;
+                samplingResult = camera.sampleHighest();
+                if (time.seconds() >= 2) {
+                    if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
+                        state = State.STRAFETOLEFT;
+                    } else if (samplingResult == Camera.Mineral.GOLD) {
+                        state = State.STRAFETOGOLDFROMCENTER;
+                    }
                 }
                 break;
             case STRAFETOGOLDFROMCENTER:
