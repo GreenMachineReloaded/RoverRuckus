@@ -144,7 +144,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case SAMPLEMID:
                     // boolean samplingResult = robot.detectGold();
-                    samplingResult = true;
+                    samplingResult = false;
                     if (samplingResult) {
                         state = State.STRAFETOGOLDFROMCENTER;
                     } else {
@@ -185,7 +185,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case STRAFETOLEFT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 10);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 5);
                     } else {
                         isFinished = false;
                         state = State.KNOCKLEFT;
@@ -204,7 +204,7 @@ public class Auto_Crater_Red extends OpMode {
                         isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
                     } else {
                         isFinished = false;
-                        state = State.TURNLEFT;
+                        state = State.END;//TURNLEFT;
                     }
                     break;
                 case TURNLEFT:
