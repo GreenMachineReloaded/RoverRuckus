@@ -26,8 +26,6 @@ public class Auto_Crater_Red extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        //robot.liftSoas();
-
         state = State.RAISEHOOK;
         isFinished = false;
     }
@@ -54,7 +52,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case STRAFE:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5, 1);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5, 1.5);
                     } else {
                         isFinished = false;
                         state = State.ROTATE;
@@ -62,7 +60,7 @@ public class Auto_Crater_Red extends OpMode {
                     break;
                 case ROTATE:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 70);
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 90);
                     } else {
                         isFinished = false;
                         state = State.DRIVEMID;
@@ -71,142 +69,132 @@ public class Auto_Crater_Red extends OpMode {
 
                 case DRIVEMID:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2.25);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 1);
                     } else {
                         isFinished = false;
-                        state = State.TURNTOBALL;
+                        state = State.TURNLEFT;
                     }
                     break;
-                case TURNTOBALL:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 8.5f);
-                    } else {
-                        isFinished = false;
-                        state = State.STRAFETOBALL;
-                    }
-                    break;
-                case STRAFETOBALL:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
-                    } else {
-                        isFinished = false;
-                        state = State.SAMPLERIGHT;
-                    }
-                    break;
-                case SAMPLERIGHT:
-                    // samplingResult = robot.detectGold();
-                    boolean samplingResult = false;
-                    if (samplingResult) {
-                        state = State.STRAFETOGOLDFROMRIGHT;
-                    } else {
-                        state = State.STRAFETOCENTER;
-                    }
-                    break;
-                case STRAFETOGOLDFROMRIGHT:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
-                    } else {
-                        isFinished = false;
-                        state = State.KNOCKRIGHT;
-                    }
-                    break;
-                case KNOCKRIGHT:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.25);
-                    } else {
-                        isFinished = false;
-                        state = State.RETURNRIGHT;
-                    }
-                    break;
-                case RETURNRIGHT:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
-                    } else {
-                        isFinished = false;
-                        state = State.STRAFELEFTFROMRIGHT;
-                    }
-                    break;
-                case STRAFELEFTFROMRIGHT:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 10.2);
-                    } else {
-                        isFinished = false;
-                        state = State.END;//TURNLEFT;
-                    }
-                    break;
-                case STRAFETOCENTER:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 4.5);
-                    } else {
-                        isFinished = false;
-                        state = State.SAMPLEMID;
-                    }
-                    break;
-                case SAMPLEMID:
-                    // boolean samplingResult = robot.detectGold();
-                    samplingResult = false;
-                    if (samplingResult) {
-                        state = State.STRAFETOGOLDFROMCENTER;
-                    } else {
-                        state = State.STRAFETOLEFT;
-                    }
-                    break;
-                case STRAFETOGOLDFROMCENTER:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1);
-                    } else {
-                        isFinished = false;
-                        state = State.KNOCKMID;
-                    }
-                    break;
-                case KNOCKMID:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.5);
-                    } else {
-                        isFinished = false;
-                        state = State.RETURNMID;
-                    }
-                    break;
-                case RETURNMID:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
-                    } else {
-                        isFinished = false;
-                        state = State.STRAFELEFTFROMMID;
-                    }
-                    break;
-                case STRAFELEFTFROMMID:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 5.5);
-                    } else {
-                        isFinished = false;
-                        state = State.END;//TURNLEFT;
-                    }
-                    break;
-                case STRAFETOLEFT:
-                    if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 5);
-                    } else {
-                        isFinished = false;
+                /*case SAMPLING:
+                    //String samplingResult = robot.detectGold();
+                    String samplingResult = "left";
+                    if (samplingResult.equals("left")) {
                         state = State.KNOCKLEFT;
+                    } else if (samplingResult.equals("center")) {
+                        state = State.KNOCKCENTER;
+                    } else if (samplingResult.equals("right")) {
+                        state = State.KNOCKRIGHT;
+                    } else if (samplingResult.equals("null")) {
+                        state = State.KNOCKCENTER;
                     }
                     break;
+
                 case KNOCKLEFT:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 3);
+                        //isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.SE, 0.5, 3.5);
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
                     } else {
                         isFinished = false;
-                        state = State.RETURNLEFT;
+                        state = State.LEFTFORWARD;
+                        //state = State.RETURNLEFT;
                     }
                     break;
-                case RETURNLEFT:
+
+                case KNOCKCENTER:
                     if (!isFinished) {
-                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3);
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3);
                     } else {
                         isFinished = false;
-                        state = State.END;//TURNLEFT;
+                        state = State.RETURNCENTER;
                     }
                     break;
+
+                case KNOCKRIGHT:
+                    if (!isFinished) {
+                        //isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.SW, 0.5, 3.5);
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
+                    } else {
+                        isFinished = false;
+                        state = State.RIGHTFORWARD;
+                        //state = State.RETURNRIGHT;
+                    }
+                    break;
+                case LEFTFORWARD:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.LEFTBACKWARDS;
+                    }
+                    break;
+                case RIGHTFORWARD:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.RIGHTBACKWARDS;
+                    }
+                    break;
+                case LEFTBACKWARDS:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.LEFTROTATION;
+                    }
+                    break;
+                case RIGHTBACKWARDS:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.RIGHTROTATION;
+                    }
+                    break;
+                case LEFTROTATION:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+                case RIGHTROTATION:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5, 45);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+                /*case RETURNLEFT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NW, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+
+                /*case RETURNCENTER:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 3);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+*//*
+                case RETURNRIGHT:
+                    if (!isFinished) {
+                        isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.NE, 0.5, 3.5);
+                    } else {
+                        isFinished = false;
+                        state = State.TURNLEFT;
+                    }
+                    break;
+*/
+
                 case TURNLEFT:
                     if (!isFinished) {
                         isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 70);
@@ -254,6 +242,8 @@ public class Auto_Crater_Red extends OpMode {
                         state = State.RAISESERVO;
                     }
                     break;
+                case TURNRIGHT:
+                    break;
                 case RAISESERVO:
                     robot.liftSoas();
                     state = State.DRIVECRATER;
@@ -267,19 +257,15 @@ public class Auto_Crater_Red extends OpMode {
                     }
                     break;
                 case END:
-                    if (!isFinished) {
-                        //~~~~~~~~~~~~~~~~~~~~~TAKE OUT LATER~~~~~~~~~~~~~~~~~~~~~~
-                        isFinished = robot.robotLift.setLift(0, 0.25);
-                        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    } else {
-                        isFinished = false;
-                        state = State.FINALE;
-                    }
-                    break;
-                case FINALE:
                     robot.driveTrain.stop();
                     break;
 
+                case ROTATEBOT:
+                    break;
+                case LOWERARM:
+                    break;
+                case ROTATECRATER:
+                    break;
             }
         }
 }
