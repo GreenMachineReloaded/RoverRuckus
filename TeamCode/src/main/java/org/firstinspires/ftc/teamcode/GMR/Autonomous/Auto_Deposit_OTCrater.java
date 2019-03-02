@@ -83,7 +83,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
             case SAMPLEMID:
                 // samplingResult = robot.detectGold();
-                boolean samplingResult = true;
+                boolean samplingResult = false;
                 if (samplingResult) {
                     state = State.KNOCKMID;
                 } else {
@@ -237,7 +237,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case BACKUP:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.5,1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,1);
                 } else {
                     isFinished = false;
                     state = State.ROTATELEFTTOCRATER;
@@ -259,10 +259,20 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     state = State.END;
                 }
                 break;
-
             case END:
+                if (!isFinished) {
+                    //~~~~~~~~~~~~~~~~~~~~~TAKE OUT LATER~~~~~~~~~~~~~~~~~~~~~~
+                    isFinished = robot.robotLift.setLift(0, 0.25);
+                    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                } else {
+                    isFinished = false;
+                    state = State.FINALE;
+                }
+                break;
+            case FINALE:
                 robot.driveTrain.stop();
                 break;
+
         }
 
     }
