@@ -291,7 +291,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,2);
                 } else {
                     isFinished = false;
-                    state = State.END;
+                    state = State.FINALE;
                 }
                 break;
             case END:

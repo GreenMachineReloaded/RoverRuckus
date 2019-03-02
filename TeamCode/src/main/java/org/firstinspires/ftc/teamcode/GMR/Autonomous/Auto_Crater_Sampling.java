@@ -263,7 +263,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 20);
                 } else {
                     isFinished = false;
-                    state = State.END;
+                    state = State.FINALE;
                 }
                 break;
             case END:
