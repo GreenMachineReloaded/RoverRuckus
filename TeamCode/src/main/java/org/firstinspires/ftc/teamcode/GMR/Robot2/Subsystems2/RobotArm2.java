@@ -36,6 +36,7 @@ public class RobotArm2 {
 
     public void flippy(boolean bumper, float trigger, boolean y) {
         if (y) {
+            armHinge.setPower(0.25);
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armHinge.setTargetPosition(ARM_SCORING_POSITION);
         } else {
