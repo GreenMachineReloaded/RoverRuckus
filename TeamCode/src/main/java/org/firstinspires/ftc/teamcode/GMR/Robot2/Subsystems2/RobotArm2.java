@@ -16,19 +16,30 @@ public class RobotArm2 {
     private int targetHingePosition;
     private int targetPulleyPosition;
 
+    private int ARM_SCORING_POSITION;
+    private int initialArmPosition;
+
 
     public RobotArm2(DcMotor armPulley, DcMotor armHinge, CRServo collector, Telemetry telemetry){
         this.armPulley = armPulley;
         this.armHinge = armHinge;
         this.collector = collector;
         this.telemetry = telemetry;
+        initialArmPosition = this.armHinge.getCurrentPosition();
+        ARM_SCORING_POSITION = initialArmPosition + 100;
     }
 
     public void extend(boolean bumper, float trigger) {
         targetPulleyPosition = runMotorAndHoldPosition(bumper, trigger, armPulley, 0.5f, targetPulleyPosition);
     }
 
-    public void flippy(boolean bumper, float trigger) {
+    public void flippy(boolean bumper, float trigger, boolean y) {
+        /*if (y) {
+            armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            armHinge.setTargetPosition(ARM_SCORING_POSITION);
+        }*/
+        telemetry.addData("Initial arm position: ", initialArmPosition);
+        telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
         targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, 0.25f, targetHingePosition);
     }
 

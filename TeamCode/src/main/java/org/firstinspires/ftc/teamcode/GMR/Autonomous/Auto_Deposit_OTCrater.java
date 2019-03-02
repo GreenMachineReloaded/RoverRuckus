@@ -106,7 +106,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.25, 1.5);
                 } else {
                     isFinished = false;
-                    state = State.END;//KNOCKMID;
+                    state = State.KNOCKMID;
                 }
                 break;
             case KNOCKMID:
@@ -150,7 +150,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.25, 1.5);
                 } else {
                     isFinished = false;
-                    state = State.END;//KNOCKRIGHT;
+                    state = State.KNOCKRIGHT;
                 }
                 break;
             case KNOCKRIGHT:
@@ -182,7 +182,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.25,9);
                 } else {
                     isFinished = false;
-                    state = State.END;//KNOCKLEFT;
+                    state = State.KNOCKLEFT;
                 }
                 break;
             case KNOCKLEFT:
@@ -267,7 +267,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case BACKUP:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,0.75);
                 } else {
                     isFinished = false;
                     state = State.ROTATELEFTTOCRATER;
@@ -283,7 +283,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case DRIVECRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,3.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,3);
                 } else {
                     isFinished = false;
                     state = State.END;
