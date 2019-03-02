@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
-
+import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.Camera;
 
 
 /**
@@ -18,9 +18,12 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
     private Robot robot;
 
+    private Camera camera;
+
     private State state;
 
     private boolean isFinished;
+    private Camera.Mineral samplingResult = Camera.Mineral.UNKNOWN;
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -28,6 +31,8 @@ public class Auto_Deposit_OTCrater extends OpMode {
     public void init() {
 
         robot = new Robot(hardwareMap, telemetry);
+        camera = new Camera(hardwareMap, telemetry);
+        camera.activate();
 
         robot.liftSoas();
 
@@ -41,7 +46,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
         switch (state) {
             case RAISEHOOK:
                 if (!isFinished) {
-                    isFinished = robot.robotLift.setLift(.986, 0.25);
+                    isFinished = robot.robotLift.setLift(1, 0.25);
                 } else {
                     isFinished = false;
                     state = State.DRIVEOUT;
@@ -65,7 +70,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case ROTATE:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5,85);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5,83);
                 } else {
                     isFinished = false;
                     state = State.DRIVEMID;
@@ -73,21 +78,35 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case DRIVEMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2.25);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.75);
                 } else {
                     isFinished = false;
+                    state = State.STRAFECENTERMINERAL;
+                }
+                break;
+            case STRAFECENTERMINERAL:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 2);
+                } else {
+                    isFinished = false;
+                    time.reset();
                     state = State.SAMPLEMID;
                 }
                 break;
-
-
             case SAMPLEMID:
-                // samplingResult = robot.detectGold();
-                boolean samplingResult = false;
-                if (samplingResult) {
-                    state = State.KNOCKMID;
-                } else {
+                samplingResult = camera.sampleHighest();
+                if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
                     state = State.STRAFEMINRIGHT;
+                } else if (samplingResult == Camera.Mineral.GOLD) {
+                    state = State.STRAFETOGOLDFROMCENTER;
+                }
+                break;
+            case STRAFETOGOLDFROMCENTER:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.25, 1.5);
+                } else {
+                    isFinished = false;
+                    state = State.END;//KNOCKMID;
                 }
                 break;
             case KNOCKMID:
@@ -108,19 +127,30 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case STRAFEMINRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.5,3);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.25,4.5);
                 } else {
                     isFinished = false;
+                    time.reset();
                     state = State.SAMPLERIGHT;
                 }
                 break;
             case SAMPLERIGHT:
-                // samplingResult = robot.detectGold();
-                samplingResult = false;
-                if (samplingResult) {
-                    state = State.KNOCKRIGHT;
+                samplingResult = camera.sampleHighest();
+                if (time.seconds() >= 2) {
+                    if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
+                        state = State.STRAFEMINLEFT;
+
+                    } else if (samplingResult == Camera.Mineral.GOLD){
+                        state = State.STRAFETOGOLDFROMRIGHT;
+                    }
+                }
+                break;
+            case STRAFETOGOLDFROMRIGHT:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.25, 1.5);
                 } else {
-                    state = State.STRAFEMINLEFT;
+                    isFinished = false;
+                    state = State.END;//KNOCKRIGHT;
                 }
                 break;
             case KNOCKRIGHT:
@@ -149,10 +179,10 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case STRAFEMINLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.5,5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.25,9);
                 } else {
                     isFinished = false;
-                    state = State.KNOCKLEFT;
+                    state = State.END;//KNOCKLEFT;
                 }
                 break;
             case KNOCKLEFT:
@@ -271,9 +301,11 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case FINALE:
                 robot.driveTrain.stop();
+                camera.shutdown();
                 break;
 
         }
+        telemetry.update();
 
     }
 }

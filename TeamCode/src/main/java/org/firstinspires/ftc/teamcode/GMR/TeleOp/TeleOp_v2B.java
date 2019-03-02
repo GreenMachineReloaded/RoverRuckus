@@ -14,7 +14,6 @@ public class TeleOp_v2B extends OpMode {
     @Override
     public void init() {
         robot = new Robot2(hardwareMap, telemetry);
-
     }
 
 
