@@ -27,6 +27,7 @@ public class RobotArm2 {
         this.telemetry = telemetry;
         initialArmPosition = this.armHinge.getCurrentPosition();
         ARM_SCORING_POSITION = initialArmPosition + 1930;
+
     }
 
     public void extend(boolean bumper, float trigger) {
