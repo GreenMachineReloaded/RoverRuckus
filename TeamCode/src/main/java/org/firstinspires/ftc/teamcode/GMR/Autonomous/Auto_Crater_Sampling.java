@@ -96,6 +96,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
                 } else {
                     isFinished = false;
+                    time.reset();
                     state = State.SAMPLERIGHT;
                 }
                 break;
@@ -117,10 +118,10 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case KNOCKRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.25);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 3);//2.25);
                 } else {
                     isFinished = false;
-                    state = State.RETURNRIGHT;
+                    state = State.FINALE;//RETURNRIGHT;
                 }
                 break;
             case RETURNRIGHT:
@@ -144,6 +145,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 4.5);
                 } else {
                     isFinished = false;
+                    time.reset();
                     state = State.SAMPLEMID;
                 }
                 break;
@@ -167,10 +169,10 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case KNOCKMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 2.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 3);//2.5);
                 } else {
                     isFinished = false;
-                    state = State.RETURNMID;
+                    state = State.FINALE;//RETURNMID;
                 }
                 break;
             case RETURNMID:
@@ -199,10 +201,10 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case KNOCKLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 3);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 3.5);//3);
                 } else {
                     isFinished = false;
-                    state = State.RETURNLEFT;
+                    state = State.FINALE;//RETURNLEFT;
                 }
                 break;
             case RETURNLEFT:
