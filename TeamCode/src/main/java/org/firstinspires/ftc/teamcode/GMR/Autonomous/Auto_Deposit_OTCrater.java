@@ -136,13 +136,10 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case SAMPLERIGHT:
                 samplingResult = camera.sampleHighest();
-                if (time.seconds() >= 2) {
-                    if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
-                        state = State.STRAFEMINLEFT;
-
-                    } else if (samplingResult == Camera.Mineral.GOLD){
-                        state = State.STRAFETOGOLDFROMRIGHT;
-                    }
+                if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
+                    state = State.STRAFEMINLEFT;
+                    } else if (samplingResult == Camera.Mineral.GOLD ){
+                    state = State.STRAFETOGOLDFROMRIGHT;
                 }
                 break;
             case STRAFETOGOLDFROMRIGHT:
