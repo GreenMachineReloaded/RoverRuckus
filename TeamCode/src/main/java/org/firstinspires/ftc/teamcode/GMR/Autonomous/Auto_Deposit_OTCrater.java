@@ -111,7 +111,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case KNOCKMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,3);
                 } else {
                     isFinished = false;
                     state = State.RETURNMID;
@@ -119,7 +119,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case RETURNMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,2);
                 } else {
                     isFinished = false;
                     state = State.DRIVELEFT;
@@ -127,7 +127,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case STRAFEMINRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.25,4.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.25,5);
                 } else {
                     isFinished = false;
                     time.reset();
@@ -155,7 +155,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case KNOCKRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,3);
                 } else {
                     isFinished = false;
                     state = State.RETURNRIGHT;
@@ -163,7 +163,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case RETURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,2);
                 } else {
                     isFinished = false;
                     state = State.STRAFECENTERFROMRIGHT;
@@ -187,7 +187,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case KNOCKLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,3);
                 } else {
                     isFinished = false;
                     state = State.RETURNLEFT;
@@ -195,7 +195,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case RETURNLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,2);
                 } else {
                     isFinished = false;
                     state = State.STRAFECRATERFROMLEFT;
@@ -203,7 +203,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case STRAFECRATERFROMLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.5,3);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.25,4.5);
                 } else {
                     isFinished = false;
                     state = State.DRIVELEFT;
@@ -240,7 +240,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case DRIVEDEPOT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,10);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,13);
                 } else {
                     time.reset();
                     isFinished = false;
@@ -259,7 +259,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case STRAFELEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.5,10);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W,0.5,13);
                 } else {
                     isFinished = false;
                     state = State.BACKUP;
@@ -267,7 +267,15 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case BACKUP:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,0.75);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S,0.25,0.5);
+                } else {
+                    isFinished = false;
+                    state = State.GOBACK;
+                }
+                break;
+            case GOBACK:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E,0.25,0.5);
                 } else {
                     isFinished = false;
                     state = State.ROTATELEFTTOCRATER;
