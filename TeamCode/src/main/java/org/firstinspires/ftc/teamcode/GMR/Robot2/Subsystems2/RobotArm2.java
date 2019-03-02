@@ -26,7 +26,7 @@ public class RobotArm2 {
         this.collector = collector;
         this.telemetry = telemetry;
         initialArmPosition = this.armHinge.getCurrentPosition();
-        ARM_SCORING_POSITION = initialArmPosition;
+        ARM_SCORING_POSITION = initialArmPosition + 1930;
     }
 
     public void extend(boolean bumper, float trigger) {
@@ -66,6 +66,7 @@ public class RobotArm2 {
             motor.setPower(power);
         } else {
             if ((Math.abs(targetEncoderPosition - motor.getCurrentPosition())) > 10) {
+                motor.setPower(1.00);
                 targetEncoderPosition = motor.getCurrentPosition();
             }
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
