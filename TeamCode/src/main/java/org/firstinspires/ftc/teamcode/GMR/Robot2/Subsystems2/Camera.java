@@ -79,6 +79,7 @@ public class Camera {
             telemetry.addData("Device incompatible with TFOD! ", "Please use other devices");
         }
         telemetry.addData("TFOD", " ready");
+        tfodParameters.minimumConfidence = 0.50;
 
         //frameGenerator = new VuforiaFrameGenerator(vuforia, 0);
     }
