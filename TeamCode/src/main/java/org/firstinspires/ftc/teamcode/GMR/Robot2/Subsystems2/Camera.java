@@ -64,8 +64,8 @@ public class Camera {
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         //ADD hardwareMap for camera to Robot \/
-        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
