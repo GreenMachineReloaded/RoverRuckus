@@ -146,7 +146,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 } else {
                     isFinished = false;
                     time.reset();
-                    state = State.SAMPLEMID;
+                    state = State.END;//SAMPLEMID;
                 }
                 break;
             case SAMPLEMID:
