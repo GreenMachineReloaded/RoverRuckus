@@ -36,6 +36,7 @@ public class Auto_Crater_Sampling extends OpMode {
 
         state = State.RAISEHOOK;
         isFinished = false;
+        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override

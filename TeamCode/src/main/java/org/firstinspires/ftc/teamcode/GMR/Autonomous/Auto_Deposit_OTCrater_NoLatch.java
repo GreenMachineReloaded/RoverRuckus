@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.Camera;
  * Created by Arroz on 11/4/2018
  */
 
-@Autonomous(name = "Auto_Deposit_OTCrater", group = "Blue")
-public class Auto_Deposit_OTCrater extends OpMode {
+@Autonomous(name = "Auto_Deposit_OTCrater_NoLatch", group = "Blue")
+public class Auto_Deposit_OTCrater_NoLatch extends OpMode {
 
     private Robot robot;
 
@@ -36,23 +36,14 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
         robot.liftSoas();
 
-        state = State.RAISEHOOK;
+        state = State.DRIVEOUT;
         isFinished = false;
-        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
     public void loop() {
         telemetry.addData("State: ", state);
         switch (state) {
-            case RAISEHOOK:
-                if (!isFinished) {
-                    isFinished = robot.robotLift.setLift(1, 0.25);
-                } else {
-                    isFinished = false;
-                    state = State.DRIVEOUT;
-                }
-                break;
             case DRIVEOUT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 1);

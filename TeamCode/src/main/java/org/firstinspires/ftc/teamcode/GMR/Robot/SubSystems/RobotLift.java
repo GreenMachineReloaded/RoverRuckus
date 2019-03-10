@@ -80,9 +80,19 @@ public class RobotLift {
         telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
     }
 
+    public void stop(){
+        liftMotor.setPower(0.00);
+    }
+
+    public void hold(int holdPosition){
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setPower(-1);
+        liftMotor.setTargetPosition(holdPosition);
+    }
+
     public boolean setLift (double goalPos,  double power) {
         //Input goalPos must be between 0.0 and 1.0
-
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int currentPos = liftMotor.getCurrentPosition();
         goalPos = Range.clip(goalPos, 0.0, 1.0);
         //goalPos = 1.0 - goalPos;
@@ -113,5 +123,9 @@ public class RobotLift {
             }
         }
         return false;
+    }
+
+    public int getEncoderPosition() {
+        return liftMotor.getCurrentPosition();
     }
 }
