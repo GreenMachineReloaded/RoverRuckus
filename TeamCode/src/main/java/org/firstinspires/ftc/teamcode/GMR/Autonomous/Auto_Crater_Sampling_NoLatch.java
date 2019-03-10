@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2.Camera;
 /**
  * Created by Arroz on 11/4/2018
  */
-@Autonomous (name = "Auto_Crater_Sampling")
-public class Auto_Crater_Sampling extends OpMode {
+@Autonomous (name = "Auto_Crater_Sampling_NoLatch")
+public class Auto_Crater_Sampling_NoLatch extends OpMode {
     private Robot robot;
 
     private Camera camera;
@@ -34,9 +34,8 @@ public class Auto_Crater_Sampling extends OpMode {
 
         robot.liftSoas();
 
-        state = State.RAISEHOOK;
+        state = State.DRIVEOUT;
         isFinished = false;
-        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
@@ -147,7 +146,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 } else {
                     isFinished = false;
                     time.reset();
-                    state = State.END;//SAMPLEMID;
+                    state = State.SAMPLEMID;
                 }
                 break;
             case SAMPLEMID:

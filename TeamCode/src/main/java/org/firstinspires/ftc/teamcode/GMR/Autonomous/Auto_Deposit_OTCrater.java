@@ -38,6 +38,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
         state = State.RAISEHOOK;
         isFinished = false;
+        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
@@ -283,9 +284,16 @@ public class Auto_Deposit_OTCrater extends OpMode {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT,0.5,80);
                 } else {
                     isFinished = false;
-                    state = State.DRIVECRATER;
+                    state = State.GOBACK;
                 }
                 break;
+            case GOBACK:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.25, 1);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVECRATER;
+                }
             case DRIVECRATER:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,2);

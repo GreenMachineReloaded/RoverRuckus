@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems.DriveTrain;
 /**
  * Created by Arroz on 11/4/2018
  */
-@Autonomous (name = "Auto_Crater_Red")
-public class Auto_Crater_Red extends OpMode {
+@Autonomous (name = "Auto_Crater_Red_LiftWait")
+public class Auto_Crater_Red_LiftWait extends OpMode {
     private Robot robot;
 
     private State state;
@@ -26,7 +26,7 @@ public class Auto_Crater_Red extends OpMode {
 
         robot = new Robot(hardwareMap, telemetry);
 
-        state = State.RAISEHOOK;
+        state = State.TIME;
         isFinished = false;
         //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
@@ -35,11 +35,16 @@ public class Auto_Crater_Red extends OpMode {
         public void loop(){
             telemetry.addData("State: ", state);
             switch (state) {
+                case TIME:
+                    time.reset();
+                    state = State.RAISEHOOK;
+                    break;
                 case RAISEHOOK:
-                    if (!isFinished) {
+                    if (!isFinished && time.seconds() < 3.0) {
                         isFinished = robot.robotLift.setLift(1, 0.25);
                     } else {
                         isFinished = false;
+                        robot.robotLift.stop();
                         state = State.DRIVEOUT;
                     }
                     break;

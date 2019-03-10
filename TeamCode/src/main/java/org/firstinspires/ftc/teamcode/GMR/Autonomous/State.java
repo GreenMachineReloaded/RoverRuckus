@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.GMR.Autonomous;
  */
 
 public enum State {
-
+    TIME,
     END,
     ROTATE,
     DRIVEOUT,

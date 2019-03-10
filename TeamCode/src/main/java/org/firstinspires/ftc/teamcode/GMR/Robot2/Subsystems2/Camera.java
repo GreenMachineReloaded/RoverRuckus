@@ -64,8 +64,8 @@ public class Camera {
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         //ADD hardwareMap for camera to Robot \/
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
+        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -109,6 +109,24 @@ public class Camera {
             }
         }
         return output;
+    }
+
+    public void getPos(){
+        if(tfod != null){
+            activate();
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if(updatedRecognitions != null){
+                if(updatedRecognitions.size() == 1){
+                    Recognition recognition = updatedRecognitions.get(0);
+                    telemetry.addData("Left: ", recognition.getLeft());
+                    telemetry.addData("Right: ", recognition.getRight());
+                    telemetry.addData("Top: ", recognition.getTop());
+                    telemetry.addData("Bottom: ", recognition.getBottom());
+                    telemetry.addData("Height: ", recognition.getHeight());
+                    telemetry.addData("Width: ", recognition.getWidth());
+                }
+            }
+        }
     }
 
     public Mineral sampleTolerance(){

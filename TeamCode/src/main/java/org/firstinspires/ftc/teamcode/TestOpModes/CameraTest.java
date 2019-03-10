@@ -12,13 +12,13 @@ import static android.os.SystemClock.sleep;
 @TeleOp(name = "CameraTest", group = "test")
 public class CameraTest extends OpMode {
 
-    private Robot2 robot;
+    //private Robot2 robot;
     private Camera camera;
     private boolean isPressed;
 
     @Override
     public void init() {
-        robot = new Robot2(hardwareMap, telemetry);
+        //robot = new Robot2(hardwareMap, telemetry);
         camera = new Camera(hardwareMap, telemetry);
         camera.activate();
         isPressed = false;
@@ -26,20 +26,7 @@ public class CameraTest extends OpMode {
     @Override
     public void loop() {
         camera.activate();
-        robot.driveTrain.setMotorPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x);
-        if(!isPressed && gamepad1.x){
-            camera.sampleSingle();
-            isPressed = true;
-        } else if(!isPressed && gamepad1.a){
-            camera.sampleTolerance();
-            isPressed = true;
-        } else if(!isPressed && gamepad1.b){
-            camera.sampleHighest();
-            isPressed = true;
-        }
-        else if(isPressed && !gamepad1.x && !gamepad1.a && !gamepad1.b){
-            isPressed = false;
-        }
+        camera.getPos();
         telemetry.update();
         }
     @Override

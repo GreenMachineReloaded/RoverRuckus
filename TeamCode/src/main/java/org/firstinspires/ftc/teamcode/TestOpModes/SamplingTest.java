@@ -157,7 +157,8 @@ public class SamplingTest extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraDirection = CameraDirection.BACK;
+        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
