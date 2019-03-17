@@ -36,7 +36,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
         robot.liftSoas();
 
-        state = State.RAISEHOOK;
+        state = State.DRIVEOUT;
         isFinished = false;
         //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
@@ -45,14 +45,18 @@ public class Auto_Deposit_OTCrater extends OpMode {
     public void loop() {
         telemetry.addData("State: ", state);
         switch (state) {
-            case RAISEHOOK:
-                if (!isFinished) {
-                    isFinished = robot.robotLift.setLift(1, 0.25);
-                } else {
-                    isFinished = false;
-                    state = State.DRIVEOUT;
-                }
-                break;
+//            case TIME:
+//                time.reset();
+//                state = State.RAISEHOOK;
+//                break;
+//            case RAISEHOOK:
+//                if (!isFinished && time.seconds() < 3.0) {
+//                    isFinished = robot.robotLift.setLift(1, 0.25);
+//                } else {
+//                    isFinished = false;
+//                    state = State.DRIVEOUT;
+//                }
+//                break;
             case DRIVEOUT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 1);
@@ -137,9 +141,9 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case SAMPLERIGHT:
                 samplingResult = camera.sampleHighest();
-                if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
+                if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
                     state = State.STRAFEMINLEFT;
-                    } else if (samplingResult == Camera.Mineral.GOLD ){
+                } else if (samplingResult == Camera.Mineral.GOLD) {
                     state = State.STRAFETOGOLDFROMRIGHT;
                 }
                 break;
