@@ -121,6 +121,28 @@ public class DriveTrain2 {
         this.rightRear.setPower(Range.clip((y+x-z), -1, 1));
     }
 
+    // Teleop drive w/ toggle slow mode
+    public void setMotorPowerSlow(double x, double y, double z, boolean slow){
+        /*
+        Guide to motor Powers:
+        Left Front: - (y + x + Z)
+        Right Front: y - x - z
+        Left Rear: y + x - z
+        Right Rear: - (y - x + z)
+         */
+        if(!slow){
+            this.leftFront.setPower(Range.clip(-(y+x+z),-1,1));
+            this.rightFront.setPower(Range.clip((y-x-z),-1,1));
+            this.leftRear.setPower(Range.clip(-(y-x+z),-1,1));
+            this.rightRear.setPower(Range.clip((y+x-z), -1, 1));
+        } else if(slow){
+            this.leftFront.setPower(Range.clip(-(y+x+z),-1,1)/2);
+            this.rightFront.setPower(Range.clip((y-x-z),-1,1)/2);
+            this.leftRear.setPower(Range.clip(-(y-x+z),-1,1)/2);
+            this.rightRear.setPower(Range.clip((y+x-z), -1, 1)/2);
+        }
+    }
+
     //A zoned drive that makes it easier to move in the sixteen different directions listed, using the joystick
     public void zonedDrive(int zone, double x, double y, double z) {
         power = Math.sqrt((x*x) + (y*y));
