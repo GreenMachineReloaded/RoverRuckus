@@ -40,7 +40,10 @@ public class Robot2 {
     private DcMotor armHinge;
 
     private Servo soas;
-     private CRServo collector;
+    private CRServo collector;
+
+    private boolean isPressed;
+    private boolean slow;
 
     /*private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -72,6 +75,9 @@ public class Robot2 {
         robotLift = new RobotLift(liftMotor, telemetry);
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
+
+        isPressed = false;
+        slow = false;
 
         //camera = new Camera(hardwareMap, telemetry);
         //camera.activate();
@@ -133,6 +139,17 @@ public class Robot2 {
         } else if (x) {
             dropSoas();
         }
+    }
+
+    public boolean slowToggle(boolean button){
+        if(!isPressed && button){
+            isPressed = true;
+            slow = !slow;
+        }
+        else if(!button){
+            isPressed = false;
+        }
+        return slow;
     }
 
 

@@ -11,6 +11,8 @@ public class TeleOp_v2B extends OpMode {
 
     private Robot2 robot;
 
+
+
     @Override
     public void init() {
         robot = new Robot2(hardwareMap, telemetry);
@@ -27,7 +29,7 @@ public class TeleOp_v2B extends OpMode {
         robot.robotArm.flippy(gamepad1.right_bumper, gamepad1.right_trigger, gamepad1.y);
         robot.robotArm.collect(gamepad2.right_bumper, gamepad2.right_trigger);
         robot.runServo(gamepad2.a, gamepad2.x);
-        //telemetry.addData("Gold Position:", robot.sample());
+        telemetry.addData("Slow:", robot.slowToggle(gamepad2.a));
         telemetry.update();
     }
 }
