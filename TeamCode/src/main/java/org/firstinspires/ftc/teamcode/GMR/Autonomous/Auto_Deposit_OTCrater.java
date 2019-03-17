@@ -97,7 +97,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
             case SAMPLEMID:
                 samplingResult = camera.sampleHighest();
                 if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
-                    state = State.STRAFEMINRIGHT;
+                    state = State.STRAFETOCENTER;
                 } else if (samplingResult == Camera.Mineral.GOLD) {
                     state = State.STRAFETOGOLDFROMCENTER;
                 }
@@ -137,9 +137,9 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case SAMPLERIGHT:
                 samplingResult = camera.sampleHighest();
-                if (samplingResult == Camera.Mineral.SILVER || samplingResult == Camera.Mineral.UNKNOWN) {
-                    state = State.STRAFEMINLEFT;
-                    } else if (samplingResult == Camera.Mineral.GOLD ){
+                if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
+                    state = State.STRAFETOCENTER;
+                } else if (samplingResult == Camera.Mineral.GOLD) {
                     state = State.STRAFETOGOLDFROMRIGHT;
                 }
                 break;
