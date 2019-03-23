@@ -45,7 +45,7 @@ public class Auto_Crater_Sampling extends OpMode {
         switch (state) {
             case TIME:
                 time.reset();
-                state = State.RAISEHOOK;
+                state = State.DRIVEOUT;
                 break;
             case RAISEHOOK:
                 if (!isFinished && time.seconds() < 3.0) {
@@ -239,7 +239,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5,11);
                 } else {
                     isFinished = false;
-                    state = State.STRAFETOCRATER;
+                    state = State.FINALE;//DROPSOAS;//STRAFETOCRATER;
                 }
             case STRAFETOCRATER:
                 if (isFinished) {
@@ -248,7 +248,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = false;
                     state = State.FINALE;
                 }
-            case TURNLEFT:
+/*            case TURNLEFT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
                 } else {
@@ -264,6 +264,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 state = State.DROPSOAS;
                 }
                 break;
+                */
             /*case DRIVEFORWARD:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 5.8);
@@ -315,7 +316,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     state = State.FINALE;
                 }
                 break;
-            case END:
+/*            case END:
                 if (!isFinished) {
                     //~~~~~~~~~~~~~~~~~~~~~TAKE OUT LATER~~~~~~~~~~~~~~~~~~~~~~
                     isFinished = robot.robotLift.setLift(0, 0.25);
@@ -325,6 +326,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     state = State.FINALE;
                 }
                 break;
+                */
             case FINALE:
                 robot.driveTrain.stop();
                 break;
