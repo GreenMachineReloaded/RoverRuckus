@@ -45,7 +45,8 @@ public class Auto_Crater_Sampling extends OpMode {
         switch (state) {
             case TIME:
                 time.reset();
-                state = State.DRIVEOUT;
+
+                state = State.DRIVEOUT;//RAISEHOOK;
                 break;
             case RAISEHOOK:
                 if (!isFinished && time.seconds() < 3.0) {
@@ -235,7 +236,9 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case ALIGN:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
+
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 3.5);
+
                 } else {
                     isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;

@@ -208,14 +208,14 @@ public class DriveTrain {
                 break;
             case W:
                 this.leftFront.setPower(power);
-                this.rightFront.setPower(power);
-                this.leftRear.setPower(-power);
+                this.rightFront.setPower(power * 1.2);
+                this.leftRear.setPower(-power * 1.2);
                 this.rightRear.setPower(-power);
                 break;
             case E:
                 this.leftFront.setPower(-power);
-                this.rightFront.setPower(-power);
-                this.leftRear.setPower(power);
+                this.rightFront.setPower(-power* 1.2);
+                this.leftRear.setPower(power* 1.2);
                 this.rightRear.setPower(power);
                 break;
             case NW:
