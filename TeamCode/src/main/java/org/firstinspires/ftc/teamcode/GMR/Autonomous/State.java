@@ -73,6 +73,7 @@ public enum State {
     STRAFECRATER,
     ALIGN,
     STRAFETOWARDSDEPOT,
-    STRAFETOCRATER
+    STRAFETOCRATER,
+
 
 }

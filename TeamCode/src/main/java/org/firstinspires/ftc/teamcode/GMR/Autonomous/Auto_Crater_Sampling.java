@@ -36,12 +36,12 @@ public class Auto_Crater_Sampling extends OpMode {
 
         state = State.TIME;
         isFinished = false;
-        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
+        robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
     public void loop(){
-        // telemetry.addData("State: ", state);
+        telemetry.addData("State: ", state);
         switch (state) {
             case TIME:
                 time.reset();
@@ -220,7 +220,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case TURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,120);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,150);
                 } else {
                     isFinished = false;
                     state = State.ALIGN;
@@ -228,21 +228,21 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case ALIGN:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 2);
                 } else {
                     isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;
                 }
                 break;
             case STRAFETOWARDSDEPOT:
-                if (isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5,11);
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5,9);
                 } else {
                     isFinished = false;
                     state = State.FINALE;//DROPSOAS;//STRAFETOCRATER;
                 }
             case STRAFETOCRATER:
-                if (isFinished) {
+                if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 14);
                 } else  {
                     isFinished = false;
