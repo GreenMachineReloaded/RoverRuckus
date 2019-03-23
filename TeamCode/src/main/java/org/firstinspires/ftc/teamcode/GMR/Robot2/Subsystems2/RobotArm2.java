@@ -35,6 +35,7 @@ public class RobotArm2 {
     }
 
     public void flippy(boolean bumper, float trigger, boolean y) {
+
         float power = 0.25f;
         if(Math.abs(armHinge.getCurrentPosition() - ARM_SCORING_POSITION) <= 300){
             power = 0.10f;
@@ -71,11 +72,12 @@ public class RobotArm2 {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor.setPower(power);
         } else {
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             if ((Math.abs(targetEncoderPosition - motor.getCurrentPosition())) > 10) {
                 motor.setPower(1.00);
                 targetEncoderPosition = motor.getCurrentPosition();
             }
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             motor.setTargetPosition(targetEncoderPosition);
         }
         return targetEncoderPosition;
