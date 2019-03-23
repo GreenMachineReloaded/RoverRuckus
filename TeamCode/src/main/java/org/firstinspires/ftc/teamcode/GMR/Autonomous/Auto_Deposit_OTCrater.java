@@ -38,7 +38,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
         state = State.DRIVEOUT;
         isFinished = false;
-        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
+        // robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
