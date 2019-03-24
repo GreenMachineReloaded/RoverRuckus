@@ -34,6 +34,8 @@ public class Auto_Crater_Sampling extends OpMode {
 
         robot.liftSoas();
 
+        robot.robotLift.lock();
+
         state = State.TIME;
         isFinished = false;
         robot.robotLift.hold(robot.robotLift.getEncoderPosition());
@@ -47,6 +49,12 @@ public class Auto_Crater_Sampling extends OpMode {
                 time.reset();
 
                 state = State.DRIVEOUT;//RAISEHOOK;
+                break;
+            case UNLOCK:
+                robot.robotLift.unlock();
+                if (time.seconds() >=0.5) {
+                    state = State.RAISEHOOK;
+                }
                 break;
             case RAISEHOOK:
                 if (!isFinished && time.seconds() < 3.0) {
