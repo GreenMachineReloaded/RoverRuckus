@@ -228,7 +228,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 }
             case TURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,100);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,180);
                 } else {
                     isFinished = false;
                     state = State.ALIGN;
