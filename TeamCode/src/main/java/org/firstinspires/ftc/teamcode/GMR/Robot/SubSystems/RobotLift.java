@@ -40,7 +40,7 @@ public class RobotLift {
         LIFT_MIN = liftMotor.getCurrentPosition();
         LIFT_MAX = LIFT_MIN - 3380;
 
-        LOCK = 0.25;
+        LOCK = 0.23;
         UNLOCK = 0.35;
 
         isPressed = false;
