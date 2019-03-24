@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class RobotLift {
 
     private DcMotor liftMotor;
+    private Servo lockServo;
 
     private Telemetry telemetry;
 
@@ -18,8 +20,15 @@ public class RobotLift {
     private final int LIFT_MIN;
     private final int LIFT_MAX;
 
-    public RobotLift(DcMotor liftMotor, Telemetry telemetry){
+    private final double LOCK;
+    private final double UNLOCK;
+
+    private boolean isPressed;
+    private boolean lockState;
+
+    public RobotLift(DcMotor liftMotor, Servo lockServo, Telemetry telemetry){
         this.liftMotor = liftMotor;
+        this.lockServo = lockServo;
         this.telemetry = telemetry;
 
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -30,6 +39,12 @@ public class RobotLift {
 
         LIFT_MIN = liftMotor.getCurrentPosition();
         LIFT_MAX = LIFT_MIN - 3380;
+
+        LOCK = 0.25;
+        UNLOCK = 0.35;
+
+        isPressed = false;
+        lockState = true;
 
         telemetry.addData("LIFT_MIN", LIFT_MIN);
         telemetry.addData("LIFT_MAX", LIFT_MAX);
@@ -88,6 +103,29 @@ public class RobotLift {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(-1);
         liftMotor.setTargetPosition(holdPosition);
+    }
+
+    public void lockButton(boolean button){
+        if(!isPressed && button){
+            lockState = !lockState;
+            isPressed = true;
+        } else if(!button){
+            isPressed = false;
+        }
+        if(lockState){
+            lockServo.setPosition(LOCK);
+        }
+        else if(!lockState){
+            lockServo.setPosition(UNLOCK);
+        }
+    }
+
+    public void lock(){
+        lockServo.setPosition(LOCK);
+    }
+
+    public void unlock(){
+        lockServo.setPosition(UNLOCK);
     }
 
     public boolean setLift (double goalPos,  double power) {
