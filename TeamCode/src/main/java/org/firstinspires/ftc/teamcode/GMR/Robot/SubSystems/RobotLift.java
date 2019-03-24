@@ -57,39 +57,21 @@ public class RobotLift {
         //CONTROLS: Bumper extends lift, trigger retracts lift
 
         int goalPos = 0;
-        if(bumper){
-            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            if(trigger == 1) {
-                liftMotor.setPower(0);
-            } else {
-                liftMotor.setPower(-0.5);
-                autoLift = false;
-            }
-        } else if(trigger == 1) {
-            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(!lockState){
             if(bumper){
-                liftMotor.setPower(0);
-            } else {
-                liftMotor.setPower(0.5);
-                autoLift = false;
-            }
-        } else if(y){
-            goalPos = LIFT_MAX;
-            autoLift = true;
-        } else if(a) {
-            goalPos = LIFT_MIN;
-            autoLift = true;
-        } else {
-            if(autoLift){
-                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                if(goalPos == LIFT_MAX){
-                    liftMotor.setPower(-0.25);
-                } else if(goalPos == LIFT_MIN){
-                    liftMotor.setPower(0.25);
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                if(trigger == 1) {
+                    liftMotor.setPower(0);
+                } else {
+                    liftMotor.setPower(-0.5);
                 }
-                liftMotor.setTargetPosition(goalPos);
-            } else {
-                liftMotor.setPower(0.0);
+            } else if(trigger == 1) {
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                if(bumper){
+                    liftMotor.setPower(0);
+                } else {
+                    liftMotor.setPower(0.5);
+                }
             }
         }
         telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
@@ -129,35 +111,37 @@ public class RobotLift {
     }
 
     public boolean setLift (double goalPos,  double power) {
-        //Input goalPos must be between 0.0 and 1.0
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        int currentPos = liftMotor.getCurrentPosition();
-        goalPos = Range.clip(goalPos, 0.0, 1.0);
-        //goalPos = 1.0 - goalPos;
-        goalPos = Range.scale(goalPos, 0.0, 1.0, LIFT_MIN, LIFT_MAX);
+        if(!lockState){
+            //Input goalPos must be between 0.0 and 1.0
+            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            int currentPos = liftMotor.getCurrentPosition();
+            goalPos = Range.clip(goalPos, 0.0, 1.0);
+            //goalPos = 1.0 - goalPos;
+            goalPos = Range.scale(goalPos, 0.0, 1.0, LIFT_MIN, LIFT_MAX);
 
-        int newGoalPos;
-        newGoalPos = (int) Math.round(goalPos);
-        if(encodersCanRun){
-            encodersCanRun = false;
-        }
-        if(!encodersCanRun){
-            if(currentPos > newGoalPos + 20){
-                liftMotor.setPower(power);
-                telemetry.addData("Current Lift Value:", currentPos);
-                telemetry.addData("Lift Goal Value:", newGoalPos);
-                telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
-                telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
-            } else if(currentPos < newGoalPos - 20){
-                liftMotor.setPower(-power);
-                telemetry.addData("Current Lift Value:", currentPos);
-                telemetry.addData("Lift Goal Value:", newGoalPos);
-                telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
-                telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
-            } else {
-                encodersCanRun = true;
-                liftMotor.setPower(0.0);
-                return encodersCanRun;
+            int newGoalPos;
+            newGoalPos = (int) Math.round(goalPos);
+            if(encodersCanRun){
+                encodersCanRun = false;
+            }
+            if(!encodersCanRun){
+                if(currentPos > newGoalPos + 20){
+                    liftMotor.setPower(power);
+                    telemetry.addData("Current Lift Value:", currentPos);
+                    telemetry.addData("Lift Goal Value:", newGoalPos);
+                    telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
+                    telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
+                } else if(currentPos < newGoalPos - 20){
+                    liftMotor.setPower(-power);
+                    telemetry.addData("Current Lift Value:", currentPos);
+                    telemetry.addData("Lift Goal Value:", newGoalPos);
+                    telemetry.addData("Current Difference: ", currentPos - LIFT_MIN);
+                    telemetry.addData("Goal Difference: ", newGoalPos - LIFT_MIN);
+                } else {
+                    encodersCanRun = true;
+                    liftMotor.setPower(0.0);
+                    return encodersCanRun;
+                }
             }
         }
         return false;
