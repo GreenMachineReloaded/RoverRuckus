@@ -72,6 +72,8 @@ public class RobotLift {
                 } else {
                     liftMotor.setPower(0.5);
                 }
+            } else{
+                liftMotor.setPower(0);
             }
         }
         telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
