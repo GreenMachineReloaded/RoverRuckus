@@ -87,7 +87,6 @@ public class Auto_Crater_Sampling extends OpMode {
                     state = State.DRIVEMID;
                 }
                 break;
-
             case DRIVEMID:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
