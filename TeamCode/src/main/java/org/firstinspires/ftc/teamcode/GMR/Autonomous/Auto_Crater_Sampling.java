@@ -47,8 +47,7 @@ public class Auto_Crater_Sampling extends OpMode {
         switch (state) {
             case TIME:
                 time.reset();
-
-                state = State.DRIVEOUT;//RAISEHOOK;
+                state = State.UNLOCK;
                 break;
             case UNLOCK:
                 robot.robotLift.unlock();
@@ -88,7 +87,6 @@ public class Auto_Crater_Sampling extends OpMode {
                     state = State.DRIVEMID;
                 }
                 break;
-
             case DRIVEMID:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
@@ -224,7 +222,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3);
                 } else {
                     isFinished = false;
-                    state = State.STRAFETOWARDSDEPOT;
+                    state = State.STRAFETOENDPOINT;
                 }
                 break;
             case STRAFETOENDPOINT:
