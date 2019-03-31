@@ -36,7 +36,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
 
         robot.liftSoas();
 
-        state = State.DRIVEOUT;
+        state = State.TIME;
         isFinished = false;
 //        robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
@@ -45,18 +45,25 @@ public class Auto_Deposit_OTCrater extends OpMode {
     public void loop() {
         telemetry.addData("State: ", state);
         switch (state) {
-//            case TIME:
-//                time.reset();
-//                state = State.RAISEHOOK;
-//                break;
-//            case RAISEHOOK:
-//                if (!isFinished && time.seconds() < 3.0) {
-//                    isFinished = robot.robotLift.setLift(1, 0.25);
-//                } else {
-//                    isFinished = false;
-//                    state = State.DRIVEOUT;
-//                }
-//                break;
+            case TIME:
+                time.reset();
+                state = State.UNLOCK;
+                break;
+            case UNLOCK:
+                robot.robotLift.unlock();
+                if (time.seconds() >=0.5) {
+                    state = State.RAISEHOOK;
+                    time.reset();
+                }
+                break;
+            case RAISEHOOK:
+                if (!isFinished && time.seconds() < 3.0) {
+                    isFinished = robot.robotLift.setLift(1, 0.5);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVEOUT;
+                }
+                break;
             case DRIVEOUT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, .6);
