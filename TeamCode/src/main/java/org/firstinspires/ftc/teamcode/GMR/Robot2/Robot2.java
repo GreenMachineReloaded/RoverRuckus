@@ -35,6 +35,7 @@ public class Robot2 {
     private IntegratingGyroscope gyro;
 
     private DcMotor liftMotor;
+    private Servo lockServo;
 
     private DcMotor armPulley;
     private DcMotor armHinge;
@@ -67,12 +68,13 @@ public class Robot2 {
         armHinge = hardwareMap.dcMotor.get("armhinge");
 
         soas = hardwareMap.servo.get("soas");
+        lockServo = hardwareMap.servo.get("lock");
 
         collector = hardwareMap.crservo.get("collector");
 
         driveTrain = new DriveTrain2(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
-        robotLift = new RobotLift(liftMotor, telemetry);
+        robotLift = new RobotLift(liftMotor, lockServo, telemetry);
 
         robotArm = new RobotArm2(armPulley, armHinge, collector, telemetry);
 
