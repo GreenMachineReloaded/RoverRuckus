@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.GMR.Robot.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -26,12 +27,14 @@ public class RobotLift {
     private boolean isPressed;
     private boolean lockState;
 
+    private ElapsedTime time = new ElapsedTime();
+
     public RobotLift(DcMotor liftMotor, Servo lockServo, Telemetry telemetry){
         this.liftMotor = liftMotor;
         this.lockServo = lockServo;
         this.telemetry = telemetry;
 
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         liftMotor.setPower(0);
 
@@ -42,12 +45,14 @@ public class RobotLift {
 
         LOCK = 0.23;
         UNLOCK = 0.35;
+        //LOCK = 0.35;
+        //UNLOCK = 0.50;
 
         isPressed = false;
         lockState = true;
 
-        telemetry.addData("LIFT_MIN", LIFT_MIN);
-        telemetry.addData("LIFT_MAX", LIFT_MAX);
+        //telemetry.addData("LIFT_MIN", LIFT_MIN);
+        //telemetry.addData("LIFT_MAX", LIFT_MAX);
 
         autoLift = false;
     }
@@ -55,18 +60,20 @@ public class RobotLift {
     //TODO: FIX AUTO LIFT
     public void lift (boolean bumper, float trigger, boolean y, boolean a) {
         //CONTROLS: Bumper extends lift, trigger retracts lift
-
-        int goalPos = 0;
-        if(!lockState){
+        if(!isUnlocked()){
+            liftMotor.setPower(0.0);
+            if(bumper || trigger == 1.0){
+                unlock();
+            }
+        }
+        else {
             if(bumper){
-                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 if(trigger == 1) {
                     liftMotor.setPower(0);
                 } else {
                     liftMotor.setPower(-0.5);
                 }
             } else if(trigger == 1) {
-                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 if(bumper){
                     liftMotor.setPower(0);
                 } else {
@@ -74,20 +81,22 @@ public class RobotLift {
                 }
             } else{
                 liftMotor.setPower(0);
+                lock();
             }
         }
-        telemetry.addData("Lift Encoder:", liftMotor.getCurrentPosition());
+        telemetry.addData("Lift Encoder: ", liftMotor.getCurrentPosition());
+        telemetry.addData("Lock Position: ", lockServo.getPosition());
     }
 
     public void stop(){
         liftMotor.setPower(0.00);
     }
 
-    public void hold(int holdPosition){
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setPower(-1);
-        liftMotor.setTargetPosition(holdPosition);
-    }
+//    public void hold(int holdPosition){
+//        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        liftMotor.setPower(-1);
+//        liftMotor.setTargetPosition(holdPosition);
+//    }
 
     public void lockButton(boolean button){
         if(!isPressed && button){
@@ -104,18 +113,24 @@ public class RobotLift {
         }
     }
 
-    public void lock(){
+    public void lock() {
         lockServo.setPosition(LOCK);
+
     }
 
-    public void unlock(){
+    public void unlock() {
         lockServo.setPosition(UNLOCK);
     }
 
+    public boolean isUnlocked(){
+        return Math.abs(lockServo.getPosition() - UNLOCK) < 0.05;
+    }
+
+
+
     public boolean setLift (double goalPos,  double power) {
-        if(!lockState){
+        if(isUnlocked()){
             //Input goalPos must be between 0.0 and 1.0
-            liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             int currentPos = liftMotor.getCurrentPosition();
             goalPos = Range.clip(goalPos, 0.0, 1.0);
             //goalPos = 1.0 - goalPos;
