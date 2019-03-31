@@ -38,7 +38,7 @@ public class Auto_Crater_Sampling extends OpMode {
 
         state = State.TIME;
         isFinished = false;
-        robot.robotLift.hold(robot.robotLift.getEncoderPosition());
+        //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
     @Override
@@ -223,7 +223,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3);
                 } else {
                     isFinished = false;
-                    state = State.STRAFETOWARDSDEPOT;
+                    state = State.STRAFETOENDPOINT;
                 }
                 break;
             case STRAFETOENDPOINT:
@@ -233,9 +233,10 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = false;
                     state = State.TURNRIGHT;
                 }
+                break;
             case TURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,180);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,145);
                 } else {
                     isFinished = false;
                     state = State.ALIGN;
@@ -243,9 +244,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case ALIGN:
                 if (!isFinished) {
-
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 4.5);
-
                 } else {
                     isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;
@@ -253,11 +252,12 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFETOWARDSDEPOT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5,7);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,7);
                 } else {
                     isFinished = false;
                     state = State.FINALE;//DROPSOAS;//STRAFETOCRATER;
                 }
+                break;
             case STRAFETOCRATER:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 14);
@@ -265,6 +265,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = false;
                     state = State.FINALE;
                 }
+                break;
 /*            case TURNLEFT:
                 if (!isFinished) {
                     isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 45);
