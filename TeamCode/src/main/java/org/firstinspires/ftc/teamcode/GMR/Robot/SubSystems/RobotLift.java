@@ -123,7 +123,7 @@ public class RobotLift {
     }
 
     public boolean isUnlocked(){
-        return Math.abs(lockServo.getPosition() - UNLOCK) < 0.05;
+        return lockServo.getPosition() == UNLOCK;
     }
 
 
