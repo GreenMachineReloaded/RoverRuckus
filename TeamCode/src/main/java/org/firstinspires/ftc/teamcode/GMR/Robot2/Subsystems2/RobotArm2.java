@@ -9,7 +9,7 @@ public class RobotArm2 {
 
     private DcMotor armPulley;
     private DcMotor armHinge;
-    private CRServo collector;
+    private DcMotor collector;
 
     private Telemetry telemetry;
 
@@ -19,15 +19,19 @@ public class RobotArm2 {
     private int ARM_SCORING_POSITION;
     private int initialArmPosition;
 
+    private double collectorPower;
+    private boolean isPressed;
 
-    public RobotArm2(DcMotor armPulley, DcMotor armHinge, CRServo collector, Telemetry telemetry){
+
+    public RobotArm2(DcMotor armPulley, DcMotor armHinge, DcMotor collector, Telemetry telemetry){
         this.armPulley = armPulley;
         this.armHinge = armHinge;
         this.collector = collector;
         this.telemetry = telemetry;
         initialArmPosition = this.armHinge.getCurrentPosition();
         ARM_SCORING_POSITION = initialArmPosition + 1930;
-
+        collectorPower = 0.75;
+        isPressed = false;
     }
 
     public void extend(boolean bumper, float trigger) {
@@ -45,21 +49,38 @@ public class RobotArm2 {
             armHinge.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armHinge.setTargetPosition(ARM_SCORING_POSITION);
         } else {
-            telemetry.addData("Initial arm position: ", initialArmPosition);
-            telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
+//            telemetry.addData("Initial arm position: ", initialArmPosition);
+//            telemetry.addData("Current arm position: ", armHinge.getCurrentPosition());
             targetHingePosition = runMotorAndHoldPosition(bumper, trigger, armHinge, power, targetHingePosition);
         }
     }
 
     public void collect(boolean bumper, float trigger){
         if (bumper && trigger != 1.0) {
-            collector.setPower(0.80);
+            collector.setPower(collectorPower);
         }
         else if (!bumper && trigger == 1.0) {
-            collector.setPower(-0.80);
+            collector.setPower(-collectorPower);
         } else {
             collector.setPower(0);
         }
+    }
+
+    public void setCollectorPower(boolean up, boolean down){
+        if(up && !isPressed){
+            isPressed = true;
+            collectorPower += 0.05;
+        }
+        else if(down && !isPressed){
+            isPressed = true;
+            collectorPower -= 0.05;
+        }
+        else if(isPressed && !up && !down){
+            isPressed = false;
+        }
+    }
+    public double getCollectorPower(){
+        return collectorPower;
     }
 
     private int runMotorAndHoldPosition(boolean bumper, float trigger, DcMotor motor, float power, int targetEncoderPosition) {

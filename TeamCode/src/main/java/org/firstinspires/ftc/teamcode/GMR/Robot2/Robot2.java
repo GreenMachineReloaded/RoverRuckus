@@ -41,7 +41,7 @@ public class Robot2 {
     private DcMotor armHinge;
 
     private Servo soas;
-    private CRServo collector;
+    private DcMotor collector;
 
     private boolean isPressed;
     private boolean slow;
@@ -70,7 +70,7 @@ public class Robot2 {
         soas = hardwareMap.servo.get("soas");
         lockServo = hardwareMap.servo.get("lock");
 
-        collector = hardwareMap.crservo.get("collector");
+        collector = hardwareMap.dcMotor.get("collector");
 
         driveTrain = new DriveTrain2(leftFront, rightFront, leftRear, rightRear, gyro, telemetry);
 
