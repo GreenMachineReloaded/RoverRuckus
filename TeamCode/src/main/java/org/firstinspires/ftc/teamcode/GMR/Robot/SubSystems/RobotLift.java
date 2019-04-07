@@ -21,13 +21,12 @@ public class RobotLift {
     private final int LIFT_MIN;
     private final int LIFT_MAX;
 
-    private final double LOCK;
-    private final double UNLOCK;
+    private final double LOCK = 0.23;
+    private final double UNLOCK = 0.35;
+    private final double LAG_TIME = 0.5;
 
-    private boolean isPressed;
-    private boolean lockState;
-
-    private ElapsedTime time = new ElapsedTime();
+    private ElapsedTime timeAfterUnlock = new ElapsedTime();
+    private ElapsedTime timeBeforeLock = new ElapsedTime();
 
     public RobotLift(DcMotor liftMotor, Servo lockServo, Telemetry telemetry){
         this.liftMotor = liftMotor;
@@ -35,6 +34,7 @@ public class RobotLift {
         this.telemetry = telemetry;
 
         this.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.lockServo.setPosition(LOCK);
 
         liftMotor.setPower(0);
 
@@ -42,14 +42,6 @@ public class RobotLift {
 
         LIFT_MIN = liftMotor.getCurrentPosition();
         LIFT_MAX = LIFT_MIN - 3380;
-
-        LOCK = 0.23;
-        UNLOCK = 0.35;
-        //LOCK = 0.35;
-        //UNLOCK = 0.50;
-
-        isPressed = false;
-        lockState = true;
 
         //telemetry.addData("LIFT_MIN", LIFT_MIN);
         //telemetry.addData("LIFT_MAX", LIFT_MAX);
@@ -63,25 +55,32 @@ public class RobotLift {
         if(!isUnlocked()){
             liftMotor.setPower(0.0);
             if(bumper || trigger == 1.0){
+                timeBeforeLock.reset();
                 unlock();
+            } else {
+                timeAfterUnlock.reset();
             }
         }
         else {
             if(bumper){
                 if(trigger == 1) {
                     liftMotor.setPower(0);
-                } else {
+                } else if (timeAfterUnlock.seconds() > LAG_TIME){
                     liftMotor.setPower(-0.5);
                 }
+                timeBeforeLock.reset();
             } else if(trigger == 1) {
                 if(bumper){
                     liftMotor.setPower(0);
-                } else {
+                } else if (timeAfterUnlock.seconds() > LAG_TIME){
                     liftMotor.setPower(0.5);
                 }
-            } else{
+                timeBeforeLock.reset();
+            } else {
                 liftMotor.setPower(0);
-                lock();
+                if (timeBeforeLock.seconds() > LAG_TIME) {
+                    lock();
+                }
             }
         }
         telemetry.addData("Lift Encoder: ", liftMotor.getCurrentPosition());
@@ -98,32 +97,36 @@ public class RobotLift {
 //        liftMotor.setTargetPosition(holdPosition);
 //    }
 
-    public void lockButton(boolean button){
-        if(!isPressed && button){
-            lockState = !lockState;
-            isPressed = true;
-        } else if(!button){
-            isPressed = false;
-        }
-        if(lockState){
+//    public void lockButton(boolean button){
+//        if(!isPressed && button){
+//            lockState = !lockState;
+//            isPressed = true;
+//        } else if(!button){
+//            isPressed = false;
+//        }
+//        if(lockState){
+//            lockServo.setPosition(LOCK);
+//        }
+//        else if(!lockState){
+//            lockServo.setPosition(UNLOCK);
+//
+//        }
+//    }
+
+    public void lock() {
+        if(isUnlocked()) {
             lockServo.setPosition(LOCK);
         }
-        else if(!lockState){
+    }
+
+    public void unlock() {
+        if(!isUnlocked()) {
             lockServo.setPosition(UNLOCK);
         }
     }
 
-    public void lock() {
-        lockServo.setPosition(LOCK);
-
-    }
-
-    public void unlock() {
-        lockServo.setPosition(UNLOCK);
-    }
-
     public boolean isUnlocked(){
-        return Math.abs(lockServo.getPosition() - UNLOCK) < 0.05;
+        return Math.abs(lockServo.getPosition() - UNLOCK) < 0.01;
     }
 
 

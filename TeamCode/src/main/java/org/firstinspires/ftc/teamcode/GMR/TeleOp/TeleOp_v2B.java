@@ -17,6 +17,7 @@ public class TeleOp_v2B extends OpMode {
     public void init() {
         robot = new Robot2(hardwareMap, telemetry);
         robot.liftSoas();
+        robot.robotLift.lock();
         //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
@@ -29,7 +30,7 @@ public class TeleOp_v2B extends OpMode {
         robot.robotArm.flippy(gamepad1.right_bumper, gamepad1.right_trigger, gamepad1.y);
         robot.robotArm.collect(gamepad2.right_bumper, gamepad2.right_trigger);
         robot.runServo(gamepad2.a, gamepad2.x);
-        robot.robotLift.lockButton(gamepad2.b);
+        //robot.robotLift.lockButton(gamepad2.b);
         telemetry.addData("Slow:", robot.slowToggle(gamepad1.a));
         telemetry.update();
     }
