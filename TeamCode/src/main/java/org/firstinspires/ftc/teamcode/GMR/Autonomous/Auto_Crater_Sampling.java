@@ -106,7 +106,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFETOBALL:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 0.5);
                 } else {
                     isFinished = false;
                     time.reset();
@@ -244,15 +244,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case ALIGN:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 4.5);
-                } else {
-                    isFinished = false;
-                    state = State.COMEBACK;
-                }
-                break;
-            case COMEBACK:
-                if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 0.2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 5.555);
                 } else {
                     isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;
@@ -260,10 +252,11 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFETOWARDSDEPOT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,7);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,16);
                 } else {
+                    time.reset();
                     isFinished = false;
-                    state = State.FINALE;//DROPSOAS;
+                    state = State.DROPSOAS;
                 }
                 break;
             case STRAFETOCRATER:
@@ -327,32 +320,61 @@ public class Auto_Crater_Sampling extends OpMode {
             case DROPSOAS:
                 robot.dropSoas();
                 if (time.seconds() >=1) {
+                    state = State.COMEBACK;
+                }
+                break;
+            case COMEBACK:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 1);
+                } else {
+                    isFinished = false;
                     state = State.RAISESERVO;
                 }
                 break;
             case RAISESERVO:
                 robot.liftSoas();
-                state = State.DRIVECRATER;
+                state = State.STRAFECRATER;
                 break;
             case STRAFECRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 10);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5, 10);
                 } else {
                     isFinished = false;
-                    state = State.FINALE;
+                    state = State.BACKUP;
                 }
                 break;
-/*            case END:
+            case BACKUP:
                 if (!isFinished) {
-                    //~~~~~~~~~~~~~~~~~~~~~TAKE OUT LATER~~~~~~~~~~~~~~~~~~~~~~
-                    isFinished = robot.robotLift.setLift(0, 0.25);
-                    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.25,0.5);
+                } else {
+                    isFinished = false;
+                    state = State.ROTATECOUNTERCLOCKWISE;
+                }
+                break;
+            case ROTATECOUNTERCLOCKWISE:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNLEFT, 0.5, 80);
+                } else {
+                    isFinished = false;
+                    state = State.STRAFETOWALL;
+                }
+                break;
+            case STRAFETOWALL:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.5, 2.25);
+                } else {
+                    isFinished = false;
+                    state = State.DRIVEONTOCRATER;
+                }
+                break;
+            case DRIVEONTOCRATER:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 5);
                 } else {
                     isFinished = false;
                     state = State.FINALE;
                 }
                 break;
-                */
             case FINALE:
                 robot.driveTrain.stop();
                 break;
