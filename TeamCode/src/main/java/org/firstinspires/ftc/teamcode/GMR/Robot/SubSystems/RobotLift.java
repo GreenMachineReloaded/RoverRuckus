@@ -23,7 +23,7 @@ public class RobotLift {
 
     private final double LOCK = 0.23;
     private final double UNLOCK = 0.35;
-    private final double LAG_TIME = 0.5;
+    private final double LAG_TIME = 0.25;
 
     private ElapsedTime timeAfterUnlock = new ElapsedTime();
     private ElapsedTime timeBeforeLock = new ElapsedTime();
