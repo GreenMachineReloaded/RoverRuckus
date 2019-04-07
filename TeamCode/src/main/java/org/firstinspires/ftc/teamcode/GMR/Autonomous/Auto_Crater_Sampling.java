@@ -53,6 +53,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 robot.robotLift.unlock();
                 if (time.seconds() >=0.5) {
                     state = State.RAISEHOOK;
+                    time.reset();
                 }
                 break;
             case RAISEHOOK:
@@ -89,7 +90,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case DRIVEMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.5, 1.75);
                 } else {
                     isFinished = false;
                     state = State.TURNTOBALL;
@@ -235,7 +236,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case TURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.5,145);
+                    isFinished = robot.driveTrain.gyroTurn(DriveTrain.Direction.TURNRIGHT, 0.3,131);
                 } else {
                     isFinished = false;
                     state = State.ALIGN;
@@ -246,6 +247,14 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.5, 4.5);
                 } else {
                     isFinished = false;
+                    state = State.COMEBACK;
+                }
+                break;
+            case COMEBACK:
+                if (!isFinished) {
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.25, 0.2);
+                } else {
+                    isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;
                 }
                 break;
@@ -254,7 +263,7 @@ public class Auto_Crater_Sampling extends OpMode {
                     isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5,7);
                 } else {
                     isFinished = false;
-                    state = State.FINALE;//DROPSOAS;//STRAFETOCRATER;
+                    state = State.FINALE;//DROPSOAS;
                 }
                 break;
             case STRAFETOCRATER:

@@ -75,7 +75,8 @@ public enum State {
     STRAFETOWARDSDEPOT,
     STRAFETOCRATER,
     STRAFETOENDPOINT,
-    UNLOCK
+    UNLOCK,
+    COMEBACK
 
 
 }
