@@ -21,7 +21,7 @@ public class RobotLift {
     private final int LIFT_MIN;
     private final int LIFT_MAX;
 
-    private final double LOCK = 0.23;
+    private final double LOCK = 0.20;
     private final double UNLOCK = 0.35;
     private final double LAG_TIME = 0.25;
 
