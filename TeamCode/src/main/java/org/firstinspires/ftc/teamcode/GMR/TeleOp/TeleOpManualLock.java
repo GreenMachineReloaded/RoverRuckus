@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.GMR.Robot.Robot;
 import org.firstinspires.ftc.teamcode.GMR.Robot2.Robot2;
 
-@TeleOp(name = "TeleOp_auto_lock")
-public class TeleOp_v2B extends OpMode {
+@TeleOp(name = "TeleOp_manual_lock")
+public class TeleOpManualLock extends OpMode {
 
     private Robot2 robot;
 
@@ -17,7 +17,7 @@ public class TeleOp_v2B extends OpMode {
     public void init() {
         robot = new Robot2(hardwareMap, telemetry);
         robot.liftSoas();
-        robot.robotLift.lock();
+        // robot.robotLift.lock();
         //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 
@@ -25,7 +25,8 @@ public class TeleOp_v2B extends OpMode {
     @Override
     public void loop() {
         robot.driveTrain.setMotorPowerSlow(-gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, robot.slowToggle(gamepad1.a));
-        robot.robotLift.liftAndLock(gamepad2.left_bumper, gamepad2.left_trigger);
+        robot.robotLift.lift(gamepad2.left_bumper, gamepad2.left_trigger);
+        robot.robotLift.lock(gamepad2.y, gamepad2.b);
         robot.robotArm.extend(gamepad1.left_bumper, gamepad1.left_trigger);
         robot.robotArm.flippy(gamepad1.right_bumper, gamepad1.right_trigger, gamepad1.y);
         robot.robotArm.setCollectorPower(gamepad2.dpad_up, gamepad2.dpad_down);

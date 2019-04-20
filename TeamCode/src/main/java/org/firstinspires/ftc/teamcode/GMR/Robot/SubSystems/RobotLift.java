@@ -50,7 +50,7 @@ public class RobotLift {
     }
 
     //TODO: FIX AUTO LIFT
-    public void lift (boolean bumper, float trigger, boolean y, boolean a) {
+    public void liftAndLock(boolean bumper, float trigger) {
         //CONTROLS: Bumper extends lift, trigger retracts lift
         if(!isUnlocked()){
             liftMotor.setPower(0.0);
@@ -169,5 +169,34 @@ public class RobotLift {
 
     public int getEncoderPosition() {
         return liftMotor.getCurrentPosition();
+    }
+
+    public void lock(boolean y, boolean b) {
+        if (y && !b) {
+            lock();
+        } else if (b && !y) {
+            unlock();
+        }
+    }
+
+    public void lift(boolean bumper, float trigger) {
+        //CONTROLS: Bumper extends lift, trigger retracts lift
+        if(bumper) {
+            if(trigger == 1) {
+                liftMotor.setPower(0);
+            } else {
+                liftMotor.setPower(-0.5);
+            }
+        } else if(trigger == 1) {
+            if(bumper) {
+                liftMotor.setPower(0);
+            } else {
+                liftMotor.setPower(0.5);
+            }
+        } else {
+            liftMotor.setPower(0);
+        }
+        telemetry.addData("Lift Encoder: ", liftMotor.getCurrentPosition());
+        telemetry.addData("Lock Position: ", lockServo.getPosition());
     }
 }
