@@ -32,12 +32,12 @@ public class DriveTrain {
     private IntegratingGyroscope gyro;
 
     private float goalDegrees;
-    private int goalPosition;
     private int gyroRange;
-    private static final double countsPerMotorRev = 1440;
-    private static final double driveGearReduction = 1.5;
-    private static final double wheelDiameterInches = 4.0;
-    private static final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * Math.PI);
+    private static final double FIXED_POWER_LEVEL = 1.0f;
+    private static final double COUNTS_PER_MOTOR_REV = 1440;
+    private static final double DRIVE_GEAR_REDUCTION = 1.5;
+    private static final double WHEEL_DIAMETER_INCHES = 4.0;
+    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     //////////////////////////////////// SETUP
 
     private Telemetry telemetry;
@@ -54,11 +54,6 @@ public class DriveTrain {
 
     private double currentGyro;
 
-    private double power;
-
-    private double degreesSetup;
-    private int zonedDegrees;
-    private float yaw;
     //////////////////////////////////// CONSTRUCT
 
     //calls the second constructor of DriveTrain and passes a reference to the hardware map, telemetry, the 4 string names of the motors in the order left front, right front, left back, right back and the port reference to the gyro.
@@ -76,10 +71,10 @@ public class DriveTrain {
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //sets all the motors power to zero, this prevents the motors from spinning at the beginning of the program
         this.leftFront.setPower(0);
@@ -92,7 +87,6 @@ public class DriveTrain {
         //misc setup
 
         this.goalDegrees = -1;
-        this.goalPosition = -1;
         this.gyroRange = 3;
 
         this.telemetry = telemetry;
@@ -123,7 +117,7 @@ public class DriveTrain {
 
     //A zoned drive that makes it easier to move in the sixteen different directions listed, using the joystick
     public void zonedDrive(int zone, double x, double y, double z) {
-        power = Math.sqrt((x*x) + (y*y));
+        double power = Math.sqrt((x*x) + (y*y));
         switch(zone) {
             case 0:
                 setMotorPower(power, 0, z);
@@ -192,7 +186,7 @@ public class DriveTrain {
         }
     }
 
-    public void drive(Direction direction, double power){
+    private void drive(Direction direction, double power){
         switch (direction) {
             case N:
                 this.leftFront.setPower(-power);
@@ -208,14 +202,14 @@ public class DriveTrain {
                 break;
             case W:
                 this.leftFront.setPower(power);
-                this.rightFront.setPower(power * 1.2);
-                this.leftRear.setPower(-power * 1.2);
+                this.rightFront.setPower(power);
+                this.leftRear.setPower(-power);
                 this.rightRear.setPower(-power);
                 break;
             case E:
                 this.leftFront.setPower(-power);
-                this.rightFront.setPower(-power* 1.2);
-                this.leftRear.setPower(power* 1.2);
+                this.rightFront.setPower(-power);
+                this.leftRear.setPower(power);
                 this.rightRear.setPower(power);
                 break;
             case NW:
@@ -314,20 +308,22 @@ public class DriveTrain {
 
     public boolean encoderDrive(Direction direction, double power, double inches) {
 
+        power = FIXED_POWER_LEVEL;
+
         int combinedEnValue = ((getLeftEncoder() + getRightEncoder()) / 2);
         int leftStrafeValue = ((-getLeftEncoder() + getRightEncoder()) / 2);
         int rightStrafeValue = ((getLeftEncoder() + -getRightEncoder()) / 2);
 
         if (encodersCanRun){
             currentGyro = getYaw();
-            goalEncoderPosition = (combinedEnValue + (inches * countsPerInch));
-            goalBackwardPosition = (combinedEnValue - (inches * countsPerInch));
-            goalLeftPosition = (getLeftEncoder() + (inches * countsPerInch));
-            goalRightPosition = (getRightEncoder() + (inches * countsPerInch));
-            goalRightStrafePosition = (rightStrafeValue + (inches * countsPerInch));
-            goalLeftStrafePosition = (leftStrafeValue + (inches *countsPerInch));
+            goalEncoderPosition = (combinedEnValue + (inches * COUNTS_PER_INCH));
+            goalBackwardPosition = (combinedEnValue - (inches * COUNTS_PER_INCH));
+            goalLeftPosition = (getLeftEncoder() + (inches * COUNTS_PER_INCH));
+            goalRightPosition = (getRightEncoder() + (inches * COUNTS_PER_INCH));
+            goalRightStrafePosition = (rightStrafeValue + (inches * COUNTS_PER_INCH));
+            goalLeftStrafePosition = (leftStrafeValue + (inches * COUNTS_PER_INCH));
             encodersCanRun = false;
-            return encodersCanRun;
+            return false;
         } else {
             switch (direction) {
 
@@ -525,8 +521,8 @@ public class DriveTrain {
         this.rightRear.setPower(Range.clip((forward+strafe-z), -1, 1));
     }
 
-    public double currentDegrees(double x, double y) {
-        degreesSetup = Math.atan2(y, x);
+    private double currentDegrees(double x, double y) {
+        double degreesSetup = Math.atan2(y, x);
         if ((degreesSetup * (180/Math.PI)) < 0) {
             return (360 + degreesSetup * (180/Math.PI));
         } else {
@@ -535,7 +531,7 @@ public class DriveTrain {
     }
 
     public double currentZone(double x, double y) {
-        zonedDegrees = ((int)(Math.round(currentDegrees(x, y) / 22.5)));
+        int zonedDegrees = ((int) (Math.round(currentDegrees(x, y) / 22.5)));
         if (zonedDegrees <= 15) {
             return zonedDegrees;
         } else {
@@ -556,7 +552,7 @@ public class DriveTrain {
     }
 
     public boolean straighten(double goal) {
-        yaw = this.getYaw();
+        float yaw = this.getYaw();
         if (yaw > (goal - 1) && yaw < (goal + 1)) {
             if (yaw > (goal - 1)) {
                 drive(Direction.TURNLEFT, 0.2);
@@ -578,8 +574,8 @@ public class DriveTrain {
 
     //////////////////////////////////// ENCODER
 
-    public int getLeftEncoder() {return -this.leftFront.getCurrentPosition();}
-    public int getRightEncoder() {return this.rightFront.getCurrentPosition();}
+    private int getLeftEncoder() {return -this.leftFront.getCurrentPosition();}
+    private int getRightEncoder() {return this.rightFront.getCurrentPosition();}
     public double encoderInchesRight() {return (this.getRightEncoder() / (1440 * 1.5) / (4 * Math.PI));}
     public double encoderInchesLeft() {return (this.getLeftEncoder() / (1440 * 1.5) / (4 * Math.PI));}
     //////////////////////////////////// ENUMS
