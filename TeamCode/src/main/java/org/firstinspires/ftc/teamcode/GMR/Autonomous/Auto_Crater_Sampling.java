@@ -106,7 +106,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFETOBALL:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 0.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1.5);
                 } else {
                     isFinished = false;
                     time.reset();
@@ -139,7 +139,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case RETURNRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2.25);
                 } else {
                     isFinished = false;
                     state = State.STRAFELEFTFROMRIGHT;
@@ -147,7 +147,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFELEFTFROMRIGHT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 11.2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 12);
                 } else {
                     isFinished = false;
                     state = State.TURNRIGHT;
@@ -167,12 +167,12 @@ public class Auto_Crater_Sampling extends OpMode {
                 if (samplingResult == Camera.Mineral.SILVER || (time.seconds() >= 2 && samplingResult == Camera.Mineral.UNKNOWN)) {
                     state = State.STRAFETOLEFT;
                 } else if (samplingResult == Camera.Mineral.GOLD) {
-                    state = State.KNOCKMID;
+                    state = State.STRAFETOGOLDFROMCENTER;
                 }
                 break;
             case STRAFETOGOLDFROMCENTER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.E, 0.5, 1 );
                 } else {
                     isFinished = false;
                     state = State.KNOCKMID;
@@ -188,7 +188,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case RETURNMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 2.25);
                 } else {
                     isFinished = false;
                     state = State.STRAFELEFTFROMMID;
@@ -196,7 +196,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFELEFTFROMMID:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 6.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 7);
                 } else {
                     isFinished = false;
                     state = State.TURNRIGHT;
@@ -220,7 +220,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case RETURNLEFT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 3.25);
                 } else {
                     isFinished = false;
                     state = State.STRAFETOENDPOINT;
@@ -228,7 +228,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case STRAFETOENDPOINT:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 1);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.W, 0.25, 1.7                                                                                             );
                 } else {
                     isFinished = false;
                     state = State.TURNRIGHT;
@@ -369,7 +369,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case DRIVEONTOCRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 5.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N, 0.3, 6.25);
                 } else {
                     isFinished = false;
                     state = State.FINALE;

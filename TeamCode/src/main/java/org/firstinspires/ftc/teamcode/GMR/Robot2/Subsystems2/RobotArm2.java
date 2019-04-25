@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.GMR.Robot2.Subsystems2;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -30,7 +31,7 @@ public class RobotArm2 {
         this.telemetry = telemetry;
         initialArmPosition = this.armHinge.getCurrentPosition();
         ARM_SCORING_POSITION = initialArmPosition + 1930;
-        collectorPower = 0.75;
+        collectorPower = 0.90;
         isPressed = false;
     }
 
@@ -40,9 +41,9 @@ public class RobotArm2 {
 
     public void flippy(boolean bumper, float trigger, boolean y) {
 
-        float power = 0.25f;
+        float power = 0.35f;
         if(Math.abs(armHinge.getCurrentPosition() - ARM_SCORING_POSITION) <= 300){
-            power = 0.10f;
+            power = 0.15f;
         }
         if (y) {
             armHinge.setPower(-power);
@@ -78,6 +79,7 @@ public class RobotArm2 {
         else if(isPressed && !up && !down){
             isPressed = false;
         }
+        Range.clip(collectorPower, 0.0, 1.0);
     }
     public double getCollectorPower(){
         return collectorPower;

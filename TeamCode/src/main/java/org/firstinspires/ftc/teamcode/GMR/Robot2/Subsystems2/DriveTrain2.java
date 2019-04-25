@@ -105,6 +105,13 @@ public class DriveTrain2 {
         telemetry.addData("DriveTrain Startup", "End");
         telemetry.update();
     }
+
+    public void disableEncoders() {
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     //////////////////////////////////// MOVE
 
     public void setMotorPower(double x, double y, double z){
@@ -604,6 +611,7 @@ public class DriveTrain2 {
     public int getRightEncoder() {return this.rightFront.getCurrentPosition();}
     public double encoderInchesRight() {return (this.getRightEncoder() / (1440 * 1.5) / (4 * Math.PI));}
     public double encoderInchesLeft() {return (this.getLeftEncoder() / (1440 * 1.5) / (4 * Math.PI));}
+
     //////////////////////////////////// ENUMS
 
     public enum Direction{

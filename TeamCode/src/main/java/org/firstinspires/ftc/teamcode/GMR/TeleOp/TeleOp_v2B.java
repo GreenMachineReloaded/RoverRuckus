@@ -18,6 +18,7 @@ public class TeleOp_v2B extends OpMode {
         robot = new Robot2(hardwareMap, telemetry);
         robot.liftSoas();
         robot.robotLift.lock();
+        robot.driveTrain.disableEncoders();
         //robot.robotLift.hold(robot.robotLift.getEncoderPosition());
     }
 

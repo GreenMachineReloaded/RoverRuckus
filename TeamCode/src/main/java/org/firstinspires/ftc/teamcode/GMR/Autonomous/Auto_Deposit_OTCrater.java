@@ -308,7 +308,7 @@ public class Auto_Deposit_OTCrater extends OpMode {
                 break;
             case DRIVECRATER:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,1.5);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.N,0.5,4);
                 } else {
                     isFinished = false;
                     state = State.FINALE;
