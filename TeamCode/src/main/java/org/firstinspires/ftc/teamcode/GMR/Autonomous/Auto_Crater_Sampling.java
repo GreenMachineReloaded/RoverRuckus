@@ -244,7 +244,7 @@ public class Auto_Crater_Sampling extends OpMode {
                 break;
             case ALIGN:
                 if (!isFinished) {
-                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 5.75);
+                    isFinished = robot.driveTrain.encoderDrive(DriveTrain.Direction.S, 0.25, 6.25);
                 } else {
                     isFinished = false;
                     state = State.STRAFETOWARDSDEPOT;
